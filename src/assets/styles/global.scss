@@ -1,0 +1,314 @@
+@import './reset';
+@import './variables';
+@import './mixins';
+
+*,
+*::before,
+*:after {
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  font: 400 normal 18px/1.4 $default-font;
+  color: $black-color;
+}
+
+.header {
+  height: 101px;
+  background-color: $background-block;
+  margin-bottom: 40px;
+}
+
+.sidebar {
+  width: 203px;
+  height: auto;
+  background-color: $background-block;
+}
+
+.main {
+  display: flex;
+  gap: 86px;
+}
+
+.container {
+  max-width: 1022px;
+  margin: 0 auto;
+}
+
+.info-block {
+  display: flex;
+  flex-wrap: wrap;
+  padding-bottom: 40px;
+
+  &__small {
+    width: 487px;
+    height: 61px;
+    margin-bottom: 30px;
+    background-color: $background-block;
+
+    &:nth-child(odd) {
+      margin-right: 48px;
+    }
+
+    &:nth-child(n + 7) {
+      margin-bottom: 40px;
+    }
+  }
+
+  &__large {
+    width: 1022px;
+    height: 168px;
+    background-color: $background-block;
+  }
+}
+
+.sort-menu {
+  padding-top: 20px;
+  border-top: 3px solid $background-block;
+  display: flex;
+  align-items: center;
+  gap: 50px;
+
+  &__comments {
+    display: flex;
+    gap: 13px;
+    font-weight: 500;
+    font-size: 20px;
+    line-height: 24px;
+    padding-bottom: 2px;
+    border-bottom: 3px solid $black-color;
+
+    &_count {
+      opacity: 0.4;
+    }
+  }
+
+  &__list {
+    display: flex;
+    align-items: flex-end;
+    gap: 10px;
+
+    &_text {
+      @include textMenu;
+      cursor: pointer;
+    }
+
+    &_arrow {
+      width: 16px;
+      height: 16px;
+      cursor: pointer;
+    }
+  }
+
+  &__favorite {
+    display: flex;
+    align-items: flex-end;
+    gap: 10px;
+
+    &_text {
+      @include textMenu;
+      cursor: pointer;
+    }
+
+    &_heart {
+      width: 21px;
+      height: 21px;
+      cursor: pointer;
+    }
+  }
+}
+
+.avatar__img {
+  margin-right: 30px;
+  width: 61px;
+  height: 61px;
+}
+
+.new-comments {
+  margin: 32px 0 40px 0;
+  display: flex;
+
+  &__info {
+    width: 688px;
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+
+    &_name {
+      @include name;
+    }
+
+    &_symbols {
+      font-style: italic;
+      @include textDate;
+    }
+  }
+
+  &__wrapper {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  &__error {
+    display: none;
+    font-size: 14px;
+    line-height: 17px;
+    color: $red-color;
+  }
+
+  &__form {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+
+    &_input {
+      padding: 20px 0 0 30px;
+      width: 688px;
+      box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+      border-radius: 5px;
+      line-height: 22px;
+      resize: none;
+      &::placeholder {
+        opacity: 0.4;
+        height: 10px;
+      }
+    }
+
+    &_btn {
+      margin-left: 30px;
+      width: 213px;
+      height: 61px;
+      line-height: 22px;
+      border-radius: 5px;
+      background-color: $btn-color;
+      opacity: 0.4;
+
+      &:hover {
+        opacity: 1;
+        background-color: $btn-active;
+        transition: all 0.3s ease-out;
+      }
+    }
+  }
+}
+
+.positive-number {
+  color: $increment-color;
+}
+
+.negative-number {
+  color: $red-color;
+}
+
+.all-comments,
+.answer-comments {
+  display: flex;
+  margin-bottom: 28px;
+
+  &__info {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 20px;
+
+    &_name {
+      @include name;
+    }
+
+    &_date {
+      align-self: center;
+      @include textDate;
+    }
+
+    &_text {
+      @include answer;
+    }
+  }
+
+  &__info-wrapper {
+    display: flex;
+    gap: 15px;
+  }
+
+  &__menu {
+    display: flex;
+    align-items: center;
+    margin-top: 15px;
+  }
+
+  &__menu-answer {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-right: 20px;
+
+    &_icon {
+      width: 22px;
+      height: 22px;
+      cursor: pointer;
+    }
+
+    &_text {
+      @include answer;
+      cursor: pointer;
+    }
+  }
+
+  &__menu-favorite {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    margin-right: 30px;
+
+    &_icon {
+      width: 24px;
+      height: 24px;
+      cursor: pointer;
+    }
+
+    &_text {
+      @include answer;
+      cursor: pointer;
+    }
+  }
+
+  &__menu-rating {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    &_icon-wrapper {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      background-color: rgba(0, 0, 0, 0.1);
+      cursor: pointer;
+    }
+
+    &_icon-minus {
+      width: 9px;
+      height: 22px;
+    }
+
+    &_icon-plus {
+      width: 12px;
+      height: 22px;
+    }
+
+    &_number {
+      font-weight: 500;
+    }
+  }
+}
+
+.answer-comments {
+  padding-left: 91px;
+}

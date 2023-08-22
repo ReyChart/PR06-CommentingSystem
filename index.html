@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./src/assets/styles/global.css" />
+    <title>Commenting System</title>
+  </head>
+  <body>
+    <header class="header"></header>
+    <main class="main">
+      <aside class="sidebar"></aside>
+      <div class="blocks__wrapper">
+        <div class="container">
+          <section class="info-block">
+            <div class="info-block__small"></div>
+            <div class="info-block__small"></div>
+            <div class="info-block__small"></div>
+            <div class="info-block__small"></div>
+            <div class="info-block__small"></div>
+            <div class="info-block__small"></div>
+            <div class="info-block__small"></div>
+            <div class="info-block__small"></div>
+            <div class="info-block__large"></div>
+          </section>
+          <section class="comments-block">
+            <div class="sort-menu">
+              <div class="sort-menu__comments">
+                <p class="sort-menu__comments_text">Комментарии</p>
+                <p class="sort-menu__comments_count">(80)</p>
+              </div>
+              <div class="sort-menu__list">
+                <p class="sort-menu__list_text">По количеству оценок</p>
+                <img
+                  src="./public/arrow_up.svg"
+                  alt="arrow up"
+                  class="sort-menu__list_arrow"
+                />
+              </div>
+              <div class="sort-menu__favorite">
+                <p class="sort-menu__favorite_text">Избранное</p>
+                <img
+                  src="./public/favorite_heart.svg"
+                  alt="favorite heart"
+                  class="sort-menu__favorite_heart"
+                />
+              </div>
+            </div>
+            <div class="new-comments">
+              <img
+                src="./public/maks_avdeenko.png"
+                alt="commenter avatar"
+                class="new-comments__img avatar__img"
+              />
+              <div class="new-comments__inner">
+                <div class="new-comments__wrapper">
+                  <div class="new-comments__info">
+                    <h2 class="new-comments__info_name">Максим Авдеенко</h2>
+                    <p class="new-comments__info_symbols">
+                      Макс. 1000 символов
+                    </p>
+                  </div>
+                  <div class="new-comments__error">
+                    <p class="new-comments__error_msg">
+                      Слишком длинное сообщение
+                    </p>
+                  </div>
+                </div>
+                <form
+                  action="/"
+                  class="new-comments__form"
+                  onsubmit="return false"
+                >
+                  <textarea
+                    class="new-comments__form_input"
+                    placeholder="Введите текст сообщения..."
+                  ></textarea>
+                  <button class="new-comments__form_btn" type="submit">
+                    Отправить
+                  </button>
+                </form>
+              </div>
+            </div>
+            <div class="all-comments">
+              <img
+                src="./public/aleks_1994b.png"
+                alt="commenter avatar"
+                class="all-commets__img avatar__img"
+              />
+              <div class="all-comments__inner">
+                <div class="all-comments__info">
+                  <h2 class="all-comments__info_name">Алексей_1994b</h2>
+                  <p class="all-comments__info_date">15.01 13:55</p>
+                </div>
+                <p class="all-comments__msg">
+                  Самое обидное когда сценарий по сути есть - в виде книг, где
+                  нет сюжетных дыр, всё логично, стройное повествование и
+                  достаточно взять и экранизировать оригинал как это было в
+                  первых фильмах с минимальным количеством отсебятины и зритель
+                  с восторгом примет любой такой фильм и сериал, однако вместо
+                  этого 'Кольца власти' просто позаимствовали имена из
+                  оригинала, куски истории, мало связанные между собой и выдали
+                  очередной среднячковый сериал на один раз в лучшем случае.
+                </p>
+                <div class="all-comments__menu">
+                  <div class="all-comments__menu-answer">
+                    <img
+                      src="./public/arrow_answer.svg"
+                      alt="arrow answer"
+                      class="all-comments__menu-answer_icon"
+                    />
+                    <p class="all-comments__menu-answer_text">Ответить</p>
+                  </div>
+                  <div class="all-comments__menu-favorite">
+                    <img
+                      src="./public/completed_heart.svg"
+                      alt="completed heart"
+                      class="all-comments__menu-favorite_icon"
+                    />
+                    <p class="all-comments__menu-favorite_text">В избранном</p>
+                  </div>
+                  <div class="all-comments__menu-rating">
+                    <div class="all-comments__menu-rating_icon-wrapper">
+                      <img
+                        src="./public/minus.svg"
+                        alt="icon minus"
+                        class="all-comments__menu-rating_icon-minus"
+                      />
+                    </div>
+                    <p class="all-comments__menu-rating_number positive-number">
+                      6
+                    </p>
+                    <div class="all-comments__menu-rating_icon-wrapper">
+                      <img
+                        src="./public/plus.svg"
+                        alt="icon plus"
+                        class="all-comments__menu-rating_icon-plus"
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="answer-comments">
+              <img
+                src="./public/junebox3000.png"
+                alt="commenter avatar"
+                class="answer-comments_img avatar__img"
+              />
+              <div class="answer-comments__inner">
+                <div class="answer-comments__info">
+                  <h2 class="answer-comments__info_name">Джунбокс3000</h2>
+                  <div class="answer-comments__info-wrapper">
+                    <img
+                      src="./public/arrow_answer.svg"
+                      alt="arrow answer"
+                      class="answer-comments__info_icon"
+                    />
+                    <p class="answer-comments__info_text">Алексей_1994b</p>
+                  </div>
+                  <p class="answer-comments__info_date">15.01 15:18</p>
+                </div>
+                <p class="answer-comments__msg">
+                  Наверное, самая большая ошибка создателей сериала была в том,
+                  что они поставили уж слишком много надежд на поддержку фанатов
+                  вселенной. Как оказалось на деле, большинство 'фанатов' с
+                  самой настоящей яростью и желчью стали уничтожать сериал, при
+                  этом объективности в отзывах самый минимум.
+                </p>
+                <div class="answer-comments__menu">
+                  <div class="answer-comments__menu-favorite">
+                    <img
+                      src="./public/epmty_heart.svg"
+                      alt="empty heart"
+                      class="answer-comments__menu-favorite_icon"
+                    />
+                    <p class="answer-comments__menu-favorite_text">
+                      В избранное
+                    </p>
+                  </div>
+                  <div class="answer-comments__menu-rating">
+                    <div class="answer-comments__menu-rating_icon-wrapper">
+                      <img
+                        src="./public/minus.svg"
+                        alt="icon minus"
+                        class="answer-comments__menu-rating_icon-minus"
+                      />
+                    </div>
+                    <p
+                      class="answer-comments__menu-rating_number positive-number"
+                    >
+                      3
+                    </p>
+                    <div class="answer-comments__menu-rating_icon-wrapper">
+                      <img
+                        src="./public/plus.svg"
+                        alt="icon plus"
+                        class="answer-comments__menu-rating_icon-plus"
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="answer-comments">
+              <img
+                src="./public/mr_douchebag.png"
+                alt="commenter avatar"
+                class="answer-comments_img avatar__img"
+              />
+              <div class="answer-comments__inner">
+                <div class="answer-comments__info">
+                  <h2 class="answer-comments__info_name">Мистер_душнила</h2>
+                  <div class="answer-comments__info-wrapper">
+                    <img
+                      src="./public/arrow_answer.svg"
+                      alt="arrow answer"
+                      class="answer-comments__info_icon"
+                    />
+                    <p class="answer-comments__info_text">Алексей_1994b</p>
+                  </div>
+                  <p class="answer-comments__info_date">11.02 15:02</p>
+                </div>
+                <p class="answer-comments__msg">
+                  Какую-то дичь несешь, братиш!
+                </p>
+                <div class="answer-comments__menu">
+                  <div class="answer-comments__menu-favorite">
+                    <img
+                      src="./public/epmty_heart.svg"
+                      alt="empty heart"
+                      class="answer-comments__menu-favorite_icon"
+                    />
+                    <p class="answer-comments__menu-favorite_text">
+                      В избранное
+                    </p>
+                  </div>
+                  <div class="answer-comments__menu-rating">
+                    <div class="answer-comments__menu-rating_icon-wrapper">
+                      <img
+                        src="./public/minus.svg"
+                        alt="icon minus"
+                        class="answer-comments__menu-rating_icon-minus"
+                      />
+                    </div>
+                    <p
+                      class="answer-comments__menu-rating_number negative-number"
+                    >
+                      5
+                    </p>
+                    <div class="answer-comments__menu-rating_icon-wrapper">
+                      <img
+                        src="./public/plus.svg"
+                        alt="icon plus"
+                        class="answer-comments__menu-rating_icon-plus"
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+        </div>
+      </div>
+    </main>
+  </body>
+</html>

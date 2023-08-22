@@ -1,0 +1,29 @@
+@mixin name {
+  font-weight: 500;
+  line-height: 22px;
+  color: $blue-color;
+}
+
+%textGray {
+  color: $black-color;
+  opacity: 0.4;
+}
+
+@mixin textMenu {
+  @extend %textGray;
+  font-size: 16px;
+  line-height: 19px;
+  text-decoration: underline;
+}
+
+@mixin textDate {
+  @extend %textGray;
+  font-size: 14px;
+  line-height: 17px;
+}
+
+@mixin answer {
+  @extend %textGray;
+  font-size: 18px;
+  line-height: 22px;
+}
