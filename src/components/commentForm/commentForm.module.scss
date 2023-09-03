@@ -1,0 +1,69 @@
+@import '/src/assets/styles/variables';
+@import '/src/assets/styles/mixins';
+
+.add_comment_avatar {
+  @include avatar;
+}
+
+.add_comment_info {
+  width: 688px;
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+
+  > h2 {
+    @include name;
+  }
+
+  > p {
+    font-style: italic;
+    @include textDate;
+  }
+}
+
+.add_comment_wrapper {
+  display: flex;
+  justify-content: space-between;
+}
+
+.add_comment_error {
+  display: none;
+  font-size: 14px;
+  line-height: 17px;
+  color: $red-color;
+}
+
+.add_comment_form {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+}
+
+.add_comment_input {
+  padding: 20px 0 0 30px;
+  width: 688px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+  border-radius: 5px;
+  line-height: 22px;
+  resize: none;
+  &::placeholder {
+    opacity: 0.4;
+    height: 10px;
+  }
+}
+
+.add_comment_btn {
+  margin-left: 30px;
+  width: 213px;
+  height: 61px;
+  line-height: 22px;
+  border-radius: 5px;
+  background-color: $btn-color;
+  opacity: 0.4;
+
+  &:hover {
+    opacity: 1;
+    background-color: $btn-active;
+    transition: all 0.3s ease-out;
+  }
+}

@@ -1,6 +1,7 @@
 import { IElements, getElements } from './utils/utils';
 import { InfoBlock } from './infoBlock/infoBlock';
 import { CommentBlock } from './commentBlock/commentBlock';
+import style from './main.module.scss';
 
 enum Elements {
   infoBlock = 'infoBlock',
@@ -11,13 +12,13 @@ export class Main {
   private readonly _root: HTMLElement;
   private readonly _sections: IElements = {};
   private _template = `
-    <header class="header"></header>
-    <main class="main">
-        <aside class="sidebar"></aside>
+    <header class="${style.header}"></header>
+    <main class="${style.main}">
+        <aside class="${style.sidebar}"></aside>
         <div class="blocks__wrapper">
-            <div class="container">
-                <section class="info-block" data-element="${Elements.infoBlock}"></section>
-                <section class="comments-block" data-element="${Elements.commentsBlock}"></section>
+            <div class="${style.container}">
+                <section class="${style.info_block}" data-element="${Elements.infoBlock}"></section>
+                <section data-element="${Elements.commentsBlock}"></section>
             </div>
         </div>
     </main>

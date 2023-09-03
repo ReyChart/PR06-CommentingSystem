@@ -1,0 +1,47 @@
+@import '../assets/styles/reset';
+@import '../assets/styles/variables';
+
+*,
+*::before,
+*:after {
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  font: 400 normal 18px/1.4 $default-font;
+  color: $black-color;
+}
+
+.header {
+  height: 101px;
+  background-color: $background-block;
+  margin-bottom: 40px;
+}
+
+.main {
+  display: flex;
+  gap: 86px;
+}
+
+.sidebar {
+  width: 203px;
+  height: auto;
+  background-color: $background-block;
+}
+
+.container {
+  max-width: 1022px;
+  margin: 0 auto;
+}
+
+.info_block {
+  display: flex;
+  flex-wrap: wrap;
+  padding-bottom: 40px;
+}

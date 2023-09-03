@@ -1,0 +1,80 @@
+@import '/src/assets/styles/variables';
+@import '/src/assets/styles/mixins';
+
+.comments_avatar {
+  @include avatar;
+}
+
+.comments_info {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 20px;
+
+  > p:first-child {
+    @include name;
+  }
+
+  > p:last-child {
+    align-self: center;
+    @include textDate;
+  }
+}
+
+.comments_panel {
+  display: flex;
+  align-items: center;
+  margin-top: 15px;
+}
+
+.comments_btn_answer {
+  @include commentPanel;
+}
+
+.comments_btn_favorite {
+  @include commentPanel;
+  margin: 0 30px 0 20px;
+
+  > img {
+    width: 22px;
+    height: 22px;
+  }
+}
+
+.comments_vote_system {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.comments_vote_btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background-color: rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+}
+
+.btn_plus {
+  width: 12px;
+  height: 22px;
+}
+
+.btn_minus {
+  width: 9px;
+  height: 22px;
+}
+
+.comments_rating {
+  font-weight: 500;
+}
+
+.comments_positive {
+  color: $increment-color;
+}
+
+.comments_negative {
+  color: $red-color;
+}

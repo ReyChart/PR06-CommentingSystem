@@ -1,29 +1,41 @@
 import { IElements, getElements } from '../utils/utils';
+import style from './controlPanel.module.scss';
 
 enum Elements {
   allCommentsFilter = 'allCommentsFilter',
   counter = 'counter',
-  favoriteFilter = 'favoriteFilter',
   selectButton = 'selectButton',
   selectDropdown = 'selectDropdown',
+  favoriteFilter = 'favoriteFilter',
 }
 
 export class ControlPanel {
   private readonly _controlPanel: HTMLElement;
   private readonly _elements: IElements = {};
+  private _selectData = [
+    { key: 'date', value: 'По дате' },
+    { key: 'rating', value: 'По количеству оценок' },
+    { key: 'relevance', value: 'По актуальности' },
+    { key: 'answer', value: 'По количеству ответов' },
+  ];
+
   private _templateControlPanel = `
-    <div class="сontrol-panel__comments">
-      <p class="сontrol-panel__comments_text" data-element="${Elements.allCommentsFilter}">Комментарии</p>
-      <p class="сontrol-panel__comments_count" ${Elements.counter}>(80)</p>
+    <button class="${style.control_panel_comment}" data-element="${Elements.allCommentsFilter}">
+      Комментарии <span class="${style.control_panel_count}" ${Elements.counter}>(80)</span>
+    </button>
+    <div class="${style.control_panel}">
+      <button class="${style.control_panel_select}" data-element="${Elements.selectButton}">
+        По количеству оценок <img src="./arrow_up.svg" alt="arrow up"/>
+      </button>
+      <ul class="${style.control_panel_list} ${style.hidden}" data-element="${Elements.selectDropdown}">
+      ${this._selectData
+        .map((item) => `<li class="${style.control_panel_item}" value="${item.key}">${item.value}</li>`)
+        .join('')}
+      </ul>
     </div>
-    <div class="сontrol-panel__list">
-      <p class="сontrol-panel__list_text">По количеству оценок</p>
-      <img src="./arrow_up.svg" alt="arrow up" class="сontrol-panel__list_arrow"/>
-    </div>
-    <div class="сontrol-panel__favorite">
-      <p class="сontrol-panel__favorite_text">Избранное</p>
-      <img src="./favorite_heart.svg" alt="favorite heart" class="сontrol-panel__favorite_heart"/>
-    </div>
+    <button class="${style.control_panel_favorite}">
+      Избранное <img src="./favorite_heart.svg" alt="favorite heart"/>
+    </button>
   `;
 
   constructor(controlPanel: HTMLElement) {

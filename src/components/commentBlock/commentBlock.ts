@@ -3,6 +3,7 @@ import { ControlPanel } from '../controlPanel/controlPanel';
 import { CommentForm } from '../commentForm/commentForm';
 import { Comments } from '../comments/comments';
 import { answerComment } from '../answerComment/answerComment';
+import style from './commentBlock.module.scss';
 
 enum Elements {
   controlPanel = 'controlPanel',
@@ -15,10 +16,10 @@ export class CommentBlock {
   private readonly _commentBlock: HTMLElement;
   private readonly _elements: IElements = {};
   private _templateCommentBlock = `
-    <div class="сontrol-panel" data-element="${Elements.controlPanel}"></div>
-    <div class="new-comments" data-element="${Elements.commentForm}"></div>
-    <div class="all-comments" data-element="${Elements.comments}"></div>
-    <div class="answer-comments" data-element="${Elements.answerComment}"></div>
+    <div class="${style.control_panel}" data-element="${Elements.controlPanel}"></div>
+    <div class="${style.add_comment}" data-element="${Elements.commentForm}"></div>
+    <div class="${style.comments}" data-element="${Elements.comments}"></div>
+    <div class="${style.answer_comment}" data-element="${Elements.answerComment}"></div>
   `;
 
   constructor(commentBlock: HTMLElement) {

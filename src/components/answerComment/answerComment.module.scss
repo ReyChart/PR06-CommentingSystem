@@ -1,0 +1,85 @@
+@import '/src/assets/styles/variables';
+@import '/src/assets/styles/mixins';
+
+.answer_comment_avatar {
+  @include avatar;
+}
+
+.answer_comment_info {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 20px;
+
+  > p:first-child {
+    @include name;
+  }
+
+  > p:last-child {
+    align-self: center;
+    @include textDate;
+  }
+}
+
+.answer_comment_info_wrapper {
+  display: flex;
+  gap: 15px;
+
+  > p {
+    @include answer;
+  }
+}
+
+.answer_comment_panel {
+  display: flex;
+  align-items: center;
+  margin-top: 15px;
+}
+
+.answer_comment_btn_favorite {
+  @include commentPanel;
+  margin-right: 30px;
+
+  > img {
+    width: 22px;
+    height: 22px;
+  }
+}
+
+.answer_comment_vote_system {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.answer_comment_vote_btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background-color: rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+}
+
+.btn_plus {
+  width: 12px;
+  height: 22px;
+}
+
+.btn_minus {
+  width: 9px;
+  height: 22px;
+}
+
+.answer_comment_rating {
+  font-weight: 500;
+}
+
+.comments_positive {
+  color: $increment-color;
+}
+
+.comments_negative {
+  color: $red-color;
+}

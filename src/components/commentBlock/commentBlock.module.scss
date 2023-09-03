@@ -1,0 +1,24 @@
+@import '/src/assets/styles/variables';
+
+.control_panel {
+  padding-top: 20px;
+  border-top: 3px solid $background-block;
+  display: flex;
+  align-items: center;
+  gap: 50px;
+}
+
+.add_comment {
+  margin: 32px 0 40px 0;
+  display: flex;
+}
+
+.comments,
+.answer_comment {
+  display: flex;
+  margin-bottom: 28px;
+}
+
+.answer_comment {
+  padding-left: 91px;
+}
