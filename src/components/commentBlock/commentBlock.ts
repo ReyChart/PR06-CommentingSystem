@@ -1,14 +1,14 @@
 import { IElements, getElements } from '../utils/utils';
 import { ControlPanel } from '../controlPanel/controlPanel';
 import { CommentForm } from '../commentForm/commentForm';
-import { Comments } from '../comments/comments';
+import { Comment } from '../comment/comment';
 import { answerComment } from '../answerComment/answerComment';
 import style from './commentBlock.module.scss';
 
 enum Elements {
   controlPanel = 'controlPanel',
   commentForm = 'commentForm',
-  comments = 'comments',
+  comment = 'comment',
   answerComment = 'answerComment',
 }
 
@@ -18,7 +18,7 @@ export class CommentBlock {
   private _templateCommentBlock = `
     <div class="${style.control_panel}" data-element="${Elements.controlPanel}"></div>
     <div class="${style.add_comment}" data-element="${Elements.commentForm}"></div>
-    <div class="${style.comments}" data-element="${Elements.comments}"></div>
+    <div class="${style.comments}" data-element="${Elements.comment}"></div>
     <div class="${style.answer_comment}" data-element="${Elements.answerComment}"></div>
   `;
 
@@ -32,7 +32,7 @@ export class CommentBlock {
     getElements(this._commentBlock, this._elements);
     new ControlPanel(this._elements[Elements.controlPanel]);
     new CommentForm(this._elements[Elements.commentForm]);
-    new Comments(this._elements[Elements.comments]);
+    new Comment(this._elements[Elements.comment]);
     new answerComment(this._elements[Elements.answerComment]);
   }
 }

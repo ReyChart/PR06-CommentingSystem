@@ -11,11 +11,11 @@
   justify-content: space-between;
   margin-bottom: 20px;
 
-  > h2 {
+  > p:first-child {
     @include name;
   }
 
-  > p {
+  > p:last-child {
     font-style: italic;
     @include textDate;
   }

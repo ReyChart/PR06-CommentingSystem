@@ -28,12 +28,43 @@
   display: none;
 }
 
+.control_panel {
+  position: relative;
+}
+
 .control_panel_select {
   @include controlPanel;
 
   > img {
     width: 20px;
     height: 20px;
+  }
+}
+
+.control_panel_list {
+  position: absolute;
+  z-index: 1;
+  top: 32px;
+  border-radius: 5px;
+  box-shadow: 0 0 10px 5px rgba(0, 0, 0, 0.1);
+  background-color: $white-color;
+  width: 229px;
+  padding: 8px 0 9px 10px;
+
+  > li {
+    font-size: 16px;
+    opacity: 0.4;
+    list-style: none;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+
+    &:before {
+      content: url(../../../public/checkbox.svg);
+      margin-right: 10px;
+      width: 15px;
+      height: 15px;
+    }
   }
 }
 
