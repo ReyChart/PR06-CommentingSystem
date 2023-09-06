@@ -1,24 +1,24 @@
 import { IElements, getElements } from '../utils/utils';
 import { ControlPanel } from '../controlPanel/controlPanel';
 import { CommentForm } from '../commentForm/commentForm';
-import { Comment } from '../comment/comment';
-import { answerComment } from '../answerComment/answerComment';
+import { Comments } from '../comments/comments';
 import style from './commentBlock.module.scss';
 
 enum Elements {
   controlPanel = 'controlPanel',
   commentForm = 'commentForm',
-  comment = 'comment',
+  comments = 'comments',
   answerComment = 'answerComment',
 }
 
 export class CommentBlock {
   private readonly _commentBlock: HTMLElement;
   private readonly _elements: IElements = {};
+  private _comments!: Comments;
   private _templateCommentBlock = `
     <div class="${style.control_panel}" data-element="${Elements.controlPanel}"></div>
     <div class="${style.add_comment}" data-element="${Elements.commentForm}"></div>
-    <div class="${style.comments}" data-element="${Elements.comment}"></div>
+    <div class="${style.comments}" data-element="${Elements.comments}"></div>
     <div class="${style.answer_comment}" data-element="${Elements.answerComment}"></div>
   `;
 
@@ -31,8 +31,11 @@ export class CommentBlock {
     this._commentBlock.innerHTML = this._templateCommentBlock;
     getElements(this._commentBlock, this._elements);
     new ControlPanel(this._elements[Elements.controlPanel]);
-    new CommentForm(this._elements[Elements.commentForm]);
-    new Comment(this._elements[Elements.comment]);
-    new answerComment(this._elements[Elements.answerComment]);
+    new CommentForm(this._elements[Elements.commentForm], this.updateComments);
+    this._comments = new Comments(this._elements[Elements.comments]);
   }
+
+  updateComments = () => {
+    this._comments.updateComments();
+  };
 }

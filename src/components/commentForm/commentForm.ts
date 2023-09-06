@@ -13,6 +13,7 @@ export class CommentForm {
   private readonly _commentForm: HTMLElement;
   private readonly _elements: IElements = {};
   private _user!: User;
+  private readonly updateComments: () => void;
   private _templateCommentForm = `
     <img alt="commenter avatar" class="${style.add_comment_avatar}" data-element="${Elements.avatar}"/>
     <div class="add_comment_inner">
@@ -31,8 +32,9 @@ export class CommentForm {
         </form>
     </div>
   `;
-  constructor(commentForm: HTMLElement) {
+  constructor(commentForm: HTMLElement, updateComments: () => void) {
     this._commentForm = commentForm;
+    this.updateComments = updateComments;
     this.render();
   }
 
@@ -43,6 +45,35 @@ export class CommentForm {
     getUser()
       .then((user) => (this._user = user))
       .then(() => this.updateUser());
+
+    this.addListeners();
+  }
+
+  addListeners() {
+    const form = this._elements[Elements.form] as HTMLFormElement;
+
+    form.addEventListener('submit', (event) => {
+      event.preventDefault();
+
+      const textArea = this._elements[Elements.textArea] as HTMLTextAreaElement;
+      if (!textArea.value) return;
+      const comments = JSON.parse(localStorage.getItem('comments') || '[]');
+
+      const draftData = {
+        ...this._user,
+        comment: textArea.value,
+        date: new Date(Date.now()),
+        favorite: false,
+        rating: Math.floor(Math.random() * (101 + 100) - 100),
+      };
+
+      comments.push(draftData);
+      localStorage.setItem('comments', JSON.stringify(comments));
+
+      textArea.value = '';
+      this.updateComments();
+      this.render();
+    });
   }
 
   updateUser() {
