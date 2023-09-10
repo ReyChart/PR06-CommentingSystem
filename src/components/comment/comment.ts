@@ -35,43 +35,40 @@ export class Comment {
   private readonly _comment: HTMLElement;
   private readonly _elements: IElements = {};
   private readonly _newComment: CommentType;
-  private readonly _updateComments: () => void;
+
   private _templateComment = `
-      <img alt="commenter avatar" class="${style.comment_avatar}" data-element="${Elements.avatar}"/>
-      <div class="comments_inner">
-          <div class="${style.comment_info}">
-              <p data-element="${Elements.name}"></p>
-              <p data-element="${Elements.date}"></p>
+    <div class="${style.comment_container}">
+      <img alt="commenter avatar" class="${style.avatar}" data-element="${Elements.avatar}"/>
+      <div class="comment_inner">
+        <div class="${style.comment_info}">
+          <p data-element="${Elements.name}"></p>
+          <p data-element="${Elements.date}"></p>
+        </div>
+        <p data-element="${Elements.comment}"></p>
+        <div class="${style.comment_panel}">
+          <button class="${style.answer_btn}">
+            <img src="./arrow_answer.svg" alt="arrow answer"/> Ответить
+          </button>
+          <button class="${style.favorite_btn}" data-element="${Elements.favorite}"></button>
+          <div class="${style.vote_system}">
+            <div class="${style.vote_btn}" data-element="${Elements.decrement}">
+              <img src="./minus.svg" alt="icon minus" class="${style.icon_minus}"/>
+            </div>
+            <p data-element="${Elements.rating}"></p>
+            <div class="${style.vote_btn}" data-element="${Elements.increment}">
+              <img src="./plus.svg" alt="icon plus" class="${style.icon_plus}"/>
+            </div>
           </div>
-          <p data-element="${Elements.comment}"></p>
-          <div class="${style.comment_panel}">
-              <button class="${style.comment_btn_answer}">
-                <img src="./arrow_answer.svg" alt="arrow answer"/> Ответить
-              </button>
-              <button class="${style.comment_btn_favorite}" data-element="${Elements.favorite}">
-                  <img src="./completed_heart.svg" alt="completed heart"/> В избранном
-              </button>
-              <div class="${style.comment_vote_system}">
-                  <div class="${style.comment_vote_btn}" data-element="${Elements.decrement}">
-                      <img src="./minus.svg" alt="icon minus" class="${style.btn_minus}"/>
-                  </div>
-                  <p class="${style.comment_rating} ${style.comment_positive} data-element="${Elements.rating}""></p>
-                  <div class="${style.comment_vote_btn}" data-element="${Elements.increment}">
-                      <img src="./plus.svg" alt="icon plus" class="${style.btn_plus}"/>
-                  </div>
-              </div>
-          </div>
+        </div>
       </div>
-    `;
+    </div>
+  `;
 
-  constructor(comment: HTMLElement, uuid: string, updateComments: () => void) {
+  constructor(comment: HTMLElement, uuid: string) {
     this._comment = comment;
-    const storageComms = [...JSON.parse(localStorage.getItem('comments')!)];
-    this._newComment = storageComms.find(
-      (item: CommentType) => item.uuid === uuid
-    );
+    const storageComms = [...JSON.parse(localStorage.getItem('comments') as string)];
+    this._newComment = storageComms.find((item: CommentType) => item.uuid === uuid);
 
-    this._updateComments = updateComments;
     this.render();
   }
 
@@ -82,24 +79,34 @@ export class Comment {
   }
 
   configureComment() {
-    const avatar = this._elements[Elements.avatar];
-    const comment = this._elements[Elements.comment];
-    const name = this._elements[Elements.name];
-    const timestamp = this._elements[Elements.date];
-    const favorite = this._elements[Elements.favorite];
-    const rating = this._elements[Elements.rating];
+    const avatar = this._elements[Elements.avatar] as HTMLImageElement;
+    const name = this._elements[Elements.name] as HTMLParagraphElement;
+    const comment = this._elements[Elements.comment] as HTMLParagraphElement;
+    const date = this._elements[Elements.date] as HTMLDataElement;
+    const favorite = this._elements[Elements.favorite] as HTMLButtonElement;
+    const rating = this._elements[Elements.rating] as HTMLDivElement;
 
     avatar.setAttribute('src', this._newComment.avatar);
-    comment.innerHTML = this._newComment.comment;
     name.innerHTML = this._newComment.name;
-    timestamp.innerHTML = new Date(this._newComment.date).toLocaleString(
-      'ru-RU',
-      { day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit' }
-    );
+    comment.innerHTML = this._newComment.comment;
+    date.innerHTML = new Date(this._newComment.date)
+      .toLocaleString('ru-Ru', {
+        day: '2-digit',
+        month: '2-digit',
+        hour: '2-digit',
+        minute: '2-digit',
+      })
+      .replace(',', ' ');
 
     favorite.innerHTML = this._newComment.favorite
-      ? `В избранном`
-      : `Не в избранном`;
-    rating.innerHTML = this._newComment.rating + '';
+      ? `<img src="./completed_heart.svg" alt="completed heart"/> В избранном`
+      : `<img src="./empty_heart.svg" alt="empty heart"/> В избранное`;
+
+    rating.innerHTML = `${this._newComment.rating}`;
+    if (this._newComment.rating < 0) {
+      rating.classList.add(`${style.negative_rating}`);
+    } else {
+      rating.classList.add(`${style.positive_rating}`);
+    }
   }
 }

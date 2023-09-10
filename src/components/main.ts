@@ -14,15 +14,15 @@ export class Main {
   private _template = `
     <header class="${style.header}"></header>
     <main class="${style.main}">
-        <aside class="${style.sidebar}"></aside>
-        <div class="blocks__wrapper">
-            <div class="${style.container}">
-                <section class="${style.info_block}" data-element="${Elements.infoBlock}"></section>
-                <section data-element="${Elements.commentsBlock}"></section>
-            </div>
+      <aside class="${style.sidebar}"></aside>
+      <div class="blocks__wrapper">
+        <div class="${style.container}">
+          <section class="${style.info_block}" data-element="${Elements.infoBlock}"></section>
+          <section data-element="${Elements.commentsBlock}"></section>
         </div>
+      </div>
     </main>
-    `;
+  `;
 
   constructor(root: HTMLElement) {
     this._root = root;

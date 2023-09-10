@@ -1,7 +1,7 @@
 @import '/src/assets/styles/variables';
 @import '/src/assets/styles/mixins';
 
-.control_panel_comment {
+.comments_btn {
   font-weight: 500;
   font-size: 20px;
   line-height: 24px;
@@ -28,11 +28,11 @@
   display: none;
 }
 
-.control_panel {
+.select_wrapper {
   position: relative;
 }
 
-.control_panel_select {
+.select_btn {
   @include controlPanel;
 
   > img {
@@ -41,7 +41,7 @@
   }
 }
 
-.control_panel_list {
+.select_dropdown {
   position: absolute;
   z-index: 1;
   top: 32px;
@@ -68,6 +68,6 @@
   }
 }
 
-.control_panel_favorite {
+.favorite_btn {
   @include controlPanel;
 }

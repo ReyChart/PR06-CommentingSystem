@@ -2,7 +2,6 @@ import axios from 'axios';
 
 interface Data {
   name: {
-    title: string;
     first: string;
     last: string;
   };
@@ -20,20 +19,17 @@ export interface User {
   avatar: string;
 }
 
-export const USER_REQUEST =
-  'https://randomuser.me/api/?inc=name,login,picture&noinfo&nat=us';
+export const USER_REQUEST = 'https://randomuser.me/api/?inc=name,login,picture&noinfo&nat=us';
 
 export const getUser = (): Promise<User> => {
-  return axios
-    .get(USER_REQUEST)
-    .then(({ data }: { data: { results: Data[] } }) => {
-      const { name, login, picture } = data.results[0];
-      const { first, last, title } = name;
+  return axios.get(USER_REQUEST).then(({ data }: { data: { results: Data[] } }) => {
+    const { name, login, picture } = data.results[0];
+    const { first, last } = name;
 
-      return {
-        name: `${title} ${first} ${last}`,
-        uuid: login.uuid,
-        avatar: picture.medium,
-      };
-    });
+    return {
+      name: `${first} ${last}`,
+      uuid: login.uuid,
+      avatar: picture.medium,
+    };
+  });
 };

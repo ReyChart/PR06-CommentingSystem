@@ -1,11 +1,16 @@
 @import '/src/assets/styles/variables';
 @import '/src/assets/styles/mixins';
 
-.add_comment_avatar {
+.avatar {
   @include avatar;
 }
 
-.add_comment_info {
+.comment_wrapper {
+  display: flex;
+  justify-content: space-between;
+}
+
+.comment_info {
   width: 688px;
   display: flex;
   justify-content: space-between;
@@ -21,26 +26,25 @@
   }
 }
 
-.add_comment_wrapper {
-  display: flex;
-  justify-content: space-between;
-}
-
-.add_comment_error {
+.comment_error {
   display: none;
   font-size: 14px;
   line-height: 17px;
   color: $red-color;
 }
 
-.add_comment_form {
+.form {
   display: flex;
   flex-direction: row;
   flex-wrap: nowrap;
 }
 
-.add_comment_input {
-  padding: 20px 0 0 30px;
+.form_input {
+  overflow: hidden;
+  padding: 20px 30px;
+  height: 65px;
+  min-height: 65px;
+  max-height: 400px;
   width: 688px;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
   border-radius: 5px;
@@ -48,11 +52,10 @@
   resize: none;
   &::placeholder {
     opacity: 0.4;
-    height: 10px;
   }
 }
 
-.add_comment_btn {
+.form_btn {
   margin-left: 30px;
   width: 213px;
   height: 61px;

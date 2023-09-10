@@ -1,7 +1,12 @@
 @import '/src/assets/styles/variables';
 @import '/src/assets/styles/mixins';
 
-.comment_avatar {
+.comment_container {
+  display: flex;
+  margin-bottom: 28px;
+}
+
+.avatar {
   @include avatar;
 }
 
@@ -26,11 +31,11 @@
   margin-top: 15px;
 }
 
-.comment_btn_answer {
+.answer_btn {
   @include commentPanel;
 }
 
-.comment_btn_favorite {
+.favorite_btn {
   @include commentPanel;
   margin: 0 30px 0 20px;
 
@@ -40,13 +45,13 @@
   }
 }
 
-.comment_vote_system {
+.vote_system {
   display: flex;
   align-items: center;
   gap: 10px;
 }
 
-.comment_vote_btn {
+.vote_btn {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -57,24 +62,22 @@
   cursor: pointer;
 }
 
-.btn_plus {
+.icon_plus {
   width: 12px;
   height: 22px;
 }
 
-.btn_minus {
+.icon_minus {
   width: 9px;
   height: 22px;
 }
 
-.comment_rating {
+.positive_rating {
   font-weight: 500;
-}
-
-.comment_positive {
   color: $increment-color;
 }
 
-.comment_negative {
+.negative_rating {
+  font-weight: 500;
   color: $red-color;
 }

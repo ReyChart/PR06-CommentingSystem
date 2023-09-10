@@ -14,26 +14,36 @@ enum Elements {
 export class CommentBlock {
   private readonly _commentBlock: HTMLElement;
   private readonly _elements: IElements = {};
+
+  private _controlPanel!: ControlPanel;
   private _comments!: Comments;
+
   private _templateCommentBlock = `
     <div class="${style.control_panel}" data-element="${Elements.controlPanel}"></div>
-    <div class="${style.add_comment}" data-element="${Elements.commentForm}"></div>
-    <div class="${style.comments}" data-element="${Elements.comments}"></div>
-    <div class="${style.answer_comment}" data-element="${Elements.answerComment}"></div>
+    <div class="${style.comment_form}" data-element="${Elements.commentForm}"></div>
+    <div data-element="${Elements.comments}"></div>
   `;
 
   constructor(commentBlock: HTMLElement) {
     this._commentBlock = commentBlock;
+
     this.render();
   }
 
   public render() {
     this._commentBlock.innerHTML = this._templateCommentBlock;
     getElements(this._commentBlock, this._elements);
-    new ControlPanel(this._elements[Elements.controlPanel]);
-    new CommentForm(this._elements[Elements.commentForm], this.updateComments);
+
+    if (!localStorage.getItem('comments')) localStorage.setItem('comments', '[]');
+
+    this._controlPanel = new ControlPanel(this._elements[Elements.controlPanel]);
+    new CommentForm(this._elements[Elements.commentForm], this.updateComments, this.updateCounter);
     this._comments = new Comments(this._elements[Elements.comments]);
   }
+
+  updateCounter = () => {
+    this._controlPanel.updateCounter();
+  };
 
   updateComments = () => {
     this._comments.updateComments();
