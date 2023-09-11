@@ -6,13 +6,17 @@ import { CommentType } from '../comment/comment';
 enum Elements {
   avatar = 'avatar',
   name = 'name',
-  textArea = 'textArea',
+  charCount = 'charCount',
+  error = 'error',
   form = 'form',
+  textArea = 'textArea',
+  button = 'button',
 }
 
 export class CommentForm {
   private readonly _commentForm: HTMLElement;
   private readonly _elements: IElements = {};
+  private _charCount: number | undefined;
   private _user!: User;
 
   private readonly _updateComments: () => void;
@@ -24,19 +28,23 @@ export class CommentForm {
       <div class="${style.comment_wrapper}">
         <div class="${style.comment_info}">
           <p data-element="${Elements.name}"></p>
-          <p>Макс. 1000 символов</p>
+          <p data-element="${Elements.charCount}">Макс. 1000 символов</p>
         </div>
-        <div class="${style.comment_error}">
+        <div class="${style.comment_error}" data-element="${Elements.error}">
           <p>Слишком длинное сообщение</p>
         </div>
       </div>
       <form action="/" class="${style.form}" data-element="${Elements.form}">
         <textarea class="${style.form_input}" placeholder="Введите текст сообщения..." data-element="${Elements.textArea}"></textarea>
-        <button class="${style.form_btn}" type="submit">Отправить</button>
+        <button class="${style.form_btn}" type="submit" disabled data-element="${Elements.button}">Отправить</button>
       </form>
     </div>
   `;
-  constructor(commentForm: HTMLElement, updateComments: () => void, updateCounter: () => void) {
+  constructor(
+    commentForm: HTMLElement,
+    updateComments: () => void,
+    updateCounter: () => void
+  ) {
     this._commentForm = commentForm;
 
     this._updateComments = updateComments;
@@ -87,12 +95,45 @@ export class CommentForm {
   };
 
   autoResizeTextArea(textArea: HTMLTextAreaElement) {
+    const countLineBreaks = textArea.value.match(/\n/g);
+
     textArea.style.height = 'auto';
     textArea.style.height = `${textArea.scrollHeight}px`;
 
     if (textArea.scrollHeight >= 400) {
       textArea.style.overflow = 'visible';
     }
+
+    if (countLineBreaks) {
+      textArea.rows = countLineBreaks.length + 1;
+    } else if (textArea.value.length <= 36 && !countLineBreaks) {
+      textArea.rows = 1;
+      textArea.style.height = '65px';
+    }
+
+    this.formSymbolValidation(textArea);
+  }
+
+  formSymbolValidation(textArea: HTMLTextAreaElement) {
+    const charCountElement = this._elements.charCount as HTMLParagraphElement;
+    const errorElement = this._elements.error as HTMLDivElement;
+    const buttonElement = this._elements.button as HTMLButtonElement;
+    this._charCount = textArea.value.length;
+
+    this._charCount && this._charCount < 1000
+      ? (buttonElement.disabled = false)
+      : (buttonElement.disabled = true);
+
+    if (this._charCount || this._charCount === 0)
+      charCountElement.innerText = `${this._charCount}/1000`;
+
+    this._charCount > 1000
+      ? ((charCountElement.style.color = 'rgba(255, 0, 0)'),
+        (charCountElement.style.opacity = '1'),
+        (errorElement.style.display = 'block'))
+      : ((charCountElement.style.color = 'rgba(0, 0, 0'),
+        (charCountElement.style.opacity = '0.4'),
+        (errorElement.style.display = 'none'));
   }
 
   updateUser() {

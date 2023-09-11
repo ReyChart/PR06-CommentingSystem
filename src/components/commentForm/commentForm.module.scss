@@ -62,11 +62,13 @@
   line-height: 22px;
   border-radius: 5px;
   background-color: $btn-color;
-  opacity: 0.4;
+  transition: opacity 0.3s ease-in-out;
 
-  &:hover {
-    opacity: 1;
-    background-color: $btn-active;
-    transition: all 0.3s ease-out;
+  &:hover:not(:disabled) {
+    opacity: 0.8;
+  }
+
+  &:disabled {
+    background-color: $btn-disabled;
   }
 }
