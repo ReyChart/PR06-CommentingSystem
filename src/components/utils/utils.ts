@@ -9,3 +9,5 @@ export function getElements(root: HTMLElement, elements: IElements) {
     }
   });
 }
+
+export const _ = () => {};

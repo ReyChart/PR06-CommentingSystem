@@ -10,7 +10,8 @@ enum Elements {
   error = 'error',
   form = 'form',
   textArea = 'textArea',
-  button = 'button',
+  buttonSend = 'buttonSend',
+  buttonCancel = 'buttonCancel',
 }
 
 export class CommentForm {
@@ -18,6 +19,7 @@ export class CommentForm {
   private readonly _elements: IElements = {};
   private _charCount: number | undefined;
   private _user!: User;
+  private readonly _parent: CommentType | null;
 
   private readonly _updateComments: () => void;
   private readonly _updateCounter: () => void;
@@ -36,16 +38,19 @@ export class CommentForm {
       </div>
       <form action="/" class="${style.form}" data-element="${Elements.form}">
         <textarea class="${style.form_input}" placeholder="Введите текст сообщения..." data-element="${Elements.textArea}"></textarea>
-        <button class="${style.form_btn}" type="submit" disabled data-element="${Elements.button}">Отправить</button>
+        <button class="${style.form_btn}" type="submit" disabled data-element="${Elements.buttonSend}">Отправить</button>
+        <button class="${style.form_btn}" data-element="${Elements.buttonCancel}">Отмена</button>
       </form>
     </div>
   `;
   constructor(
     commentForm: HTMLElement,
     updateComments: () => void,
-    updateCounter: () => void
+    updateCounter: () => void,
+    parent: CommentType | null = null
   ) {
     this._commentForm = commentForm;
+    this._parent = parent;
 
     this._updateComments = updateComments;
     this._updateCounter = updateCounter;
@@ -55,6 +60,11 @@ export class CommentForm {
   render() {
     this._commentForm.innerHTML = this._templateCommentForm;
     getElements(this._commentForm, this._elements);
+
+    if (!this._parent) {
+      this._elements[Elements.buttonCancel].remove();
+      delete this._elements[Elements.buttonCancel];
+    }
 
     getUser()
       .then((user) => (this._user = user))
@@ -66,8 +76,12 @@ export class CommentForm {
   addListeners() {
     const form = this._elements[Elements.form] as HTMLFormElement;
     const textArea = this._elements[Elements.textArea] as HTMLTextAreaElement;
+    const cancelBtn = this._elements[
+      Elements.buttonCancel
+    ] as HTMLButtonElement;
 
     form.addEventListener('submit', (event) => this.onSubmit(event, textArea));
+    cancelBtn?.addEventListener('click', this.onCancel);
     textArea.addEventListener('input', () => this.autoResizeTextArea(textArea));
   }
 
@@ -94,6 +108,10 @@ export class CommentForm {
     this.render();
   };
 
+  onCancel = () => {
+    this._commentForm.remove();
+  };
+
   autoResizeTextArea(textArea: HTMLTextAreaElement) {
     const countLineBreaks = textArea.value.match(/\n/g);
 
@@ -117,7 +135,7 @@ export class CommentForm {
   formSymbolValidation(textArea: HTMLTextAreaElement) {
     const charCountElement = this._elements.charCount as HTMLParagraphElement;
     const errorElement = this._elements.error as HTMLDivElement;
-    const buttonElement = this._elements.button as HTMLButtonElement;
+    const buttonElement = this._elements.buttonSend as HTMLButtonElement;
     this._charCount = textArea.value.length;
 
     this._charCount && this._charCount < 1000

@@ -1,6 +1,7 @@
-import { IElements, getElements } from '../utils/utils';
+import { IElements, getElements, _ } from '../utils/utils';
 import style from './comment.module.scss';
 import { User } from '../../request';
+import { CommentForm } from '../commentForm/commentForm';
 
 enum Elements {
   avatar = 'avatar',
@@ -9,8 +10,11 @@ enum Elements {
   date = 'date',
   favorite = 'favorite',
   rating = 'rating',
+  reply = 'reply',
+  replies = 'replies',
   decrement = 'decrement',
   increment = 'increment',
+  commentForm = 'commentForm',
 }
 
 export type ParentComment = {
@@ -19,6 +23,7 @@ export type ParentComment = {
   favorite: boolean;
   rating: number;
   replies?: ChildComment[];
+  parent?: never;
 } & User;
 
 export type ChildComment = {
@@ -26,13 +31,14 @@ export type ChildComment = {
   date: Date;
   favorite: boolean;
   rating: number;
-  parent: ParentComment;
+  parent: string;
+  replies?: never;
 } & User;
 
 export type CommentType = ParentComment | ChildComment;
 
 export class Comment {
-  private readonly _comment: HTMLElement;
+  private _comment: HTMLElement;
   private readonly _elements: IElements = {};
   private readonly _newComment: CommentType;
 
@@ -46,8 +52,8 @@ export class Comment {
         </div>
         <p data-element="${Elements.comment}"></p>
         <div class="${style.comment_panel}">
-          <button class="${style.answer_btn}">
-            <img src="./arrow_answer.svg" alt="arrow answer"/> Ответить
+          <button class="${style.reply_btn}" data-element="${Elements.reply}">
+            <img src="./arrow_reply.svg" alt="arrow reply"/> Ответить
           </button>
           <button class="${style.favorite_btn}" data-element="${Elements.favorite}"></button>
           <div class="${style.vote_system}">
@@ -66,8 +72,12 @@ export class Comment {
 
   constructor(comment: HTMLElement, uuid: string) {
     this._comment = comment;
-    const storageComms = [...JSON.parse(localStorage.getItem('comments') as string)];
-    this._newComment = storageComms.find((item: CommentType) => item.uuid === uuid);
+    const storageComms = [
+      ...JSON.parse(localStorage.getItem('comments') as string),
+    ];
+    this._newComment = storageComms.find(
+      (item: CommentType) => item.uuid === uuid
+    );
 
     this.render();
   }
@@ -76,6 +86,7 @@ export class Comment {
     this._comment.innerHTML = this._templateComment;
     getElements(this._comment, this._elements);
     this.configureComment();
+    this.addListeners();
   }
 
   configureComment() {
@@ -109,4 +120,32 @@ export class Comment {
       rating.classList.add(`${style.positive_rating}`);
     }
   }
+
+  addListeners() {
+    const reply = this._elements[Elements.reply] as HTMLButtonElement;
+
+    reply.addEventListener('click', this.onReply);
+  }
+
+  onReply = () => {
+    this._comment.insertAdjacentHTML(
+      'beforeend',
+      `<div data-element="${Elements.replies}"></div>`
+    );
+    this._elements[Elements.replies] = this._comment.querySelector(
+      `[data-element="${Elements.replies}"]`
+    ) as HTMLElement;
+
+    const replies = this._elements[Elements.replies] as HTMLElement;
+    replies.insertAdjacentHTML(
+      'afterbegin',
+      `<div data-element="${Elements.commentForm}"></div>`
+    );
+    getElements(this._comment, this._elements);
+
+    const formReply = this._elements[Elements.commentForm] as HTMLFormElement;
+    new CommentForm(formReply, this.updateReplies, _, this._newComment);
+  };
+
+  updateReplies = () => {};
 }
