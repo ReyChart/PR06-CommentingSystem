@@ -41,6 +41,9 @@ export class Comment {
   private _comment: HTMLElement;
   private readonly _elements: IElements = {};
   private readonly _newComment: CommentType;
+  private _repliesData: ChildComment[];
+
+  private readonly _updateComments: () => void;
 
   private _templateComment = `
     <div class="${style.comment_container}">
@@ -70,7 +73,7 @@ export class Comment {
     </div>
   `;
 
-  constructor(comment: HTMLElement, uuid: string) {
+  constructor(comment: HTMLElement, uuid: string, updateComments: () => void) {
     this._comment = comment;
     const storageComms = [
       ...JSON.parse(localStorage.getItem('comments') as string),
@@ -78,7 +81,11 @@ export class Comment {
     this._newComment = storageComms.find(
       (item: CommentType) => item.uuid === uuid
     );
+    this._repliesData = storageComms.filter(
+      (item: CommentType) => item.parent === this._newComment.uuid
+    );
 
+    this._updateComments = updateComments;
     this.render();
   }
 
@@ -87,7 +94,34 @@ export class Comment {
     getElements(this._comment, this._elements);
     this.configureComment();
     this.addListeners();
+    if (this._repliesData.length) {
+      this._comment.insertAdjacentHTML(
+        'beforeend',
+        `<div data-element="${Elements.replies}"></div>`
+      );
+      this._elements[Elements.replies] = this._comment.querySelector(
+        `[data-element=${Elements.replies}]`
+      ) as HTMLElement;
+      this.renderReplies();
+    }
   }
+
+  renderReplies = () => {
+    const replies = this._elements[Elements.replies] as HTMLElement;
+    replies.insertAdjacentHTML(
+      'beforeend',
+      this._repliesData
+        .map((reply) => `<div data-element="${reply.uuid}"></div>`)
+        .join('')
+    );
+
+    const repliesInstances: IElements = {};
+    getElements(replies, repliesInstances);
+
+    Object.entries(repliesInstances).forEach(([id, element]) => {
+      new Comment(element, id, this._updateComments);
+    });
+  };
 
   configureComment() {
     const avatar = this._elements[Elements.avatar] as HTMLImageElement;
@@ -128,13 +162,15 @@ export class Comment {
   }
 
   onReply = () => {
-    this._comment.insertAdjacentHTML(
-      'beforeend',
-      `<div data-element="${Elements.replies}"></div>`
-    );
-    this._elements[Elements.replies] = this._comment.querySelector(
-      `[data-element="${Elements.replies}"]`
-    ) as HTMLElement;
+    if (!this._elements[Elements.replies]) {
+      this._comment.insertAdjacentHTML(
+        'beforeend',
+        `<div data-element="${Elements.replies}"></div>`
+      );
+      this._elements[Elements.replies] = this._comment.querySelector(
+        `[data-element="${Elements.replies}"]`
+      ) as HTMLElement;
+    }
 
     const replies = this._elements[Elements.replies] as HTMLElement;
     replies.insertAdjacentHTML(
@@ -147,5 +183,14 @@ export class Comment {
     new CommentForm(formReply, this.updateReplies, _, this._newComment);
   };
 
-  updateReplies = () => {};
+  updateReplies = () => {
+    const storageComms = [
+      ...JSON.parse(localStorage.getItem('comments') as string),
+    ];
+    this._repliesData = storageComms.filter(
+      (item: CommentType) => item.parent === this._newComment.uuid
+    );
+    this._elements[Elements.commentForm].remove();
+    this.renderReplies();
+  };
 }

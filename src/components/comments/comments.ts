@@ -8,7 +8,9 @@ export class Comments {
 
   constructor(comments: HTMLElement) {
     this._comments = comments;
-    this._commentContain = JSON.parse(localStorage.getItem('comments') as string);
+    this._commentContain = JSON.parse(
+      localStorage.getItem('comments') as string
+    );
 
     this.render();
   }
@@ -16,18 +18,21 @@ export class Comments {
   render() {
     if (!this._commentContain) return;
 
-    this._comments.innerHTML = this._commentContain
+    const parentComments = this._commentContain.filter((item) => !item.parent);
+    this._comments.innerHTML = parentComments
       .map((comment) => `<div data-element="${comment.uuid}"></div>`)
       .join('');
     getElements(this._comments, this._elements);
 
     Object.entries(this._elements).forEach(([id, element]) => {
-      new Comment(element, id);
+      new Comment(element, id, this.updateComments);
     });
   }
 
   updateComments() {
-    this._commentContain = JSON.parse(localStorage.getItem('comments') as string);
+    this._commentContain = JSON.parse(
+      localStorage.getItem('comments') as string
+    );
     this.render();
   }
 }
