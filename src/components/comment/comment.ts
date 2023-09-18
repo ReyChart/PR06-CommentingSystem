@@ -108,18 +108,17 @@ export class Comment {
 
   renderReplies = () => {
     const replies = this._elements[Elements.replies] as HTMLElement;
-    replies.insertAdjacentHTML(
-      'beforeend',
-      this._repliesData
-        .map((reply) => `<div data-element="${reply.uuid}"></div>`)
-        .join('')
-    );
+    this._repliesData.forEach((reply) => {
+      const existingElement = replies.querySelector(
+        `[data-uuid="${reply.uuid}"]`
+      );
 
-    const repliesInstances: IElements = {};
-    getElements(replies, repliesInstances);
-
-    Object.entries(repliesInstances).forEach(([id, element]) => {
-      new Comment(element, id, this._updateComments);
+      if (!existingElement) {
+        const element = document.createElement('div');
+        element.dataset.uuid = reply.uuid;
+        replies.appendChild(element);
+        new Comment(element, reply.uuid, this._updateComments);
+      }
     });
   };
 
