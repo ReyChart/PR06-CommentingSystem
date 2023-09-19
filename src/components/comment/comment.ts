@@ -6,8 +6,9 @@ import { CommentForm } from '../commentForm/commentForm';
 enum Elements {
   avatar = 'avatar',
   name = 'name',
-  comment = 'comment',
+  parent = 'parent',
   date = 'date',
+  comment = 'comment',
   favorite = 'favorite',
   rating = 'rating',
   reply = 'reply',
@@ -51,6 +52,7 @@ export class Comment {
       <div class="comment_inner">
         <div class="${style.comment_info}">
           <p data-element="${Elements.name}"></p>
+          <p data-element="${Elements.parent}"></p>
           <p data-element="${Elements.date}"></p>
         </div>
         <p data-element="${Elements.comment}"></p>
@@ -97,7 +99,7 @@ export class Comment {
     if (this._repliesData.length) {
       this._comment.insertAdjacentHTML(
         'beforeend',
-        `<div data-element="${Elements.replies}"></div>`
+        `<div class="${style.replies}" data-element="${Elements.replies}"></div>`
       );
       this._elements[Elements.replies] = this._comment.querySelector(
         `[data-element=${Elements.replies}]`
@@ -164,7 +166,7 @@ export class Comment {
     if (!this._elements[Elements.replies]) {
       this._comment.insertAdjacentHTML(
         'beforeend',
-        `<div data-element="${Elements.replies}"></div>`
+        `<div class="${style.replies}" data-element="${Elements.replies}"></div>`
       );
       this._elements[Elements.replies] = this._comment.querySelector(
         `[data-element="${Elements.replies}"]`
@@ -172,14 +174,18 @@ export class Comment {
     }
 
     const replies = this._elements[Elements.replies] as HTMLElement;
-    replies.insertAdjacentHTML(
-      'afterbegin',
-      `<div data-element="${Elements.commentForm}"></div>`
-    );
-    getElements(this._comment, this._elements);
+    const existingForm: CommentForm | null = null;
 
-    const formReply = this._elements[Elements.commentForm] as HTMLFormElement;
-    new CommentForm(formReply, this.updateReplies, _, this._newComment);
+    if (!existingForm) {
+      replies.insertAdjacentHTML(
+        'afterbegin',
+        `<div class="${style.comment_form}" data-element="${Elements.commentForm}"></div>`
+      );
+      getElements(this._comment, this._elements);
+
+      const formReply = this._elements[Elements.commentForm] as HTMLFormElement;
+      new CommentForm(formReply, this.updateReplies, _, this._newComment);
+    }
   };
 
   updateReplies = () => {

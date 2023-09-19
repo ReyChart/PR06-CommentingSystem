@@ -1,51 +1,46 @@
 @import '/src/assets/styles/variables';
 @import '/src/assets/styles/mixins';
 
-.avatar {
-  @include avatar;
-}
-
-.comment_wrapper {
-  display: flex;
-  justify-content: space-between;
-}
-
-.comment_info {
-  width: 688px;
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 20px;
-
-  > p:first-child {
-    @include name;
-  }
-
-  > p:last-child {
-    font-style: italic;
-    @include textDate;
-  }
-}
-
-.comment_error {
-  display: none;
-  font-size: 14px;
-  line-height: 17px;
-  color: $red-color;
-}
-
 .form {
   display: flex;
-  flex-direction: row;
-  flex-wrap: nowrap;
+  align-items: center;
+  padding-top: 37px;
+  padding-left: 91px;
+  position: relative;
 }
 
-.form_input {
+.user_wrapper {
+  display: flex;
+
+  > img {
+    @include avatar;
+    margin-right: 30px;
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+
+  > p {
+    @include name;
+    position: absolute;
+    top: 0;
+  }
+}
+
+.textarea_wrapper {
+  display: flex;
+  width: 100%;
+  margin-right: 30px;
+}
+
+.textarea {
   overflow: hidden;
   padding: 20px 30px;
   height: 65px;
   min-height: 65px;
   max-height: 400px;
-  width: 688px;
+  width: 100%;
+  max-width: 688px;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
   border-radius: 5px;
   line-height: 22px;
@@ -55,10 +50,33 @@
   }
 }
 
+.validation_wrapper {
+  display: flex;
+  position: absolute;
+  top: 0;
+  right: 0;
+
+  > p:first-child {
+    font-style: italic;
+    margin-right: 40px;
+    @include textDate;
+  }
+
+  > p:last-child {
+    visibility: hidden;
+    font-size: 14px;
+    line-height: 17px;
+    color: $red-color;
+  }
+}
+
+.form_btn_wrapper {
+  align-self: flex-start;
+}
+
 .form_btn {
-  margin-left: 30px;
-  width: 213px;
-  height: 61px;
+  padding: 20px 60px;
+  height: 65px;
   line-height: 22px;
   border-radius: 5px;
   background-color: $btn-color;

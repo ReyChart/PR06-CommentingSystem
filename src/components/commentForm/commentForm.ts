@@ -25,23 +25,23 @@ export class CommentForm {
   private readonly _updateCounter: () => void;
 
   private _templateCommentForm = `
-    <img alt="commenter avatar" class="${style.avatar}" data-element="${Elements.avatar}"/>
-    <div class="comment_form_inner">
-      <div class="${style.comment_wrapper}">
-        <div class="${style.comment_info}">
-          <p data-element="${Elements.name}"></p>
+    <form action="/" class="${style.form}" data-element="${Elements.form}">
+      <div class="${style.user_wrapper}">
+        <img alt="commenter avatar" data-element="${Elements.avatar}"/>
+        <p data-element="${Elements.name}"></p>
+      </div>
+      <div class="${style.textarea_wrapper}">
+        <textarea class="${style.textarea}" placeholder="Введите текст сообщения..." data-element="${Elements.textArea}"></textarea>
+        <div class="${style.validation_wrapper}">
           <p data-element="${Elements.charCount}">Макс. 1000 символов</p>
-        </div>
-        <div class="${style.comment_error}" data-element="${Elements.error}">
-          <p>Слишком длинное сообщение</p>
+          <p data-element="${Elements.error}">Слишком длинное сообщение</p>
         </div>
       </div>
-      <form action="/" class="${style.form}" data-element="${Elements.form}">
-        <textarea class="${style.form_input}" placeholder="Введите текст сообщения..." data-element="${Elements.textArea}"></textarea>
+      <div class="${style.form_btn_wrapper}">
         <button class="${style.form_btn}" type="submit" disabled data-element="${Elements.buttonSend}">Отправить</button>
         <button class="${style.form_btn}" data-element="${Elements.buttonCancel}">Отмена</button>
-      </form>
-    </div>
+      </div>
+    </form>
   `;
   constructor(
     commentForm: HTMLElement,
@@ -139,7 +139,7 @@ export class CommentForm {
     const buttonElement = this._elements.buttonSend as HTMLButtonElement;
     this._charCount = textArea.value.length;
 
-    this._charCount && this._charCount < 1000
+    this._charCount && this._charCount <= 1000
       ? (buttonElement.disabled = false)
       : (buttonElement.disabled = true);
 
@@ -149,10 +149,10 @@ export class CommentForm {
     this._charCount > 1000
       ? ((charCountElement.style.color = 'rgba(255, 0, 0)'),
         (charCountElement.style.opacity = '1'),
-        (errorElement.style.display = 'block'))
+        (errorElement.style.visibility = 'visible'))
       : ((charCountElement.style.color = 'rgba(0, 0, 0'),
         (charCountElement.style.opacity = '0.4'),
-        (errorElement.style.display = 'none'));
+        (errorElement.style.visibility = 'hidden'));
   }
 
   updateUser() {

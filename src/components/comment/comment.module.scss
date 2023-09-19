@@ -6,6 +6,35 @@
   margin-bottom: 28px;
 }
 
+.replies {
+  margin-left: 91px;
+}
+
+.comment_form {
+  margin-bottom: 28px;
+
+  > form {
+    > div:first-child ~ div:not(div:last-child) {
+      > div:last-child {
+        right: 13%;
+      }
+    }
+
+    > div:last-child {
+      display: flex;
+
+      > button {
+        padding: 20px 30px;
+        width: 154px;
+
+        & ~ button {
+          margin-left: 30px;
+        }
+      }
+    }
+  }
+}
+
 .avatar {
   @include avatar;
 }
@@ -13,7 +42,7 @@
 .comment_info {
   display: flex;
   gap: 15px;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
 
   > p:first-child {
     @include name;
