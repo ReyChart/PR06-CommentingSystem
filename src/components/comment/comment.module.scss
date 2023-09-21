@@ -54,6 +54,20 @@
   }
 }
 
+.parent {
+  display: flex;
+  gap: 13px;
+
+  > p {
+    @include answer;
+  }
+}
+
+.parent_icon {
+  width: 20px;
+  height: 20px;
+}
+
 .comment_panel {
   display: flex;
   align-items: center;
@@ -62,11 +76,12 @@
 
 .reply_btn {
   @include commentPanel;
+  margin-right: 20px;
 }
 
 .favorite_btn {
   @include commentPanel;
-  margin: 0 30px 0 20px;
+  margin-right: 30px;
 
   > img {
     width: 22px;

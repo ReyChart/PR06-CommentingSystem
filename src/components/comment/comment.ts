@@ -7,6 +7,7 @@ enum Elements {
   avatar = 'avatar',
   name = 'name',
   parent = 'parent',
+  parentName = 'parentName',
   date = 'date',
   comment = 'comment',
   favorite = 'favorite',
@@ -52,7 +53,10 @@ export class Comment {
       <div class="comment_inner">
         <div class="${style.comment_info}">
           <p data-element="${Elements.name}"></p>
-          <p data-element="${Elements.parent}"></p>
+          <div class="${style.parent}" data-element="${Elements.parent}">
+            <img class="${style.parent_icon}" src="./arrow_reply.svg" alt="arrow answer"/>
+            <p data-element="${Elements.parentName}"></p>
+          </div>
           <p data-element="${Elements.date}"></p>
         </div>
         <p data-element="${Elements.comment}"></p>
@@ -132,6 +136,13 @@ export class Comment {
     const favorite = this._elements[Elements.favorite] as HTMLButtonElement;
     const rating = this._elements[Elements.rating] as HTMLDivElement;
 
+    const parent = this._elements[Elements.parent] as HTMLDivElement;
+    const parentName = this._elements[
+      Elements.parentName
+    ] as HTMLParagraphElement;
+    const reply = this._elements[Elements.reply] as HTMLButtonElement;
+    const isParent = this._newComment.parent;
+
     avatar.setAttribute('src', this._newComment.avatar);
     name.innerHTML = this._newComment.name;
     comment.innerHTML = this._newComment.comment;
@@ -153,6 +164,20 @@ export class Comment {
       rating.classList.add(`${style.negative_rating}`);
     } else {
       rating.classList.add(`${style.positive_rating}`);
+    }
+
+    if (!isParent) {
+      parent?.remove();
+      delete this._elements[Elements.parent];
+    } else {
+      const parentData: CommentType | undefined = [
+        ...JSON.parse(localStorage.getItem('comments') as string),
+      ].find((item: CommentType) => item.uuid === this._newComment.parent);
+
+      if (parentData) {
+        parentName.innerHTML = parentData.name;
+        reply?.remove();
+      }
     }
   }
 
