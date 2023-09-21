@@ -25,7 +25,7 @@ export class Comments {
     getElements(this._comments, this._elements);
 
     Object.entries(this._elements).forEach(([id, element]) => {
-      new Comment(element, id, this.updateComments);
+      new Comment(element, id, this.updateComments, this.patchCommentData);
     });
   }
 
@@ -35,4 +35,14 @@ export class Comments {
     );
     this.render();
   }
+
+  patchCommentData = (data: CommentType) => {
+    this._commentContain = JSON.parse(
+      localStorage.getItem('comments') as string
+    );
+    const patchedData = this._commentContain.map((comment) =>
+      comment.uuid === data.uuid ? data : comment
+    );
+    localStorage.setItem('comments', JSON.stringify(patchedData));
+  };
 }

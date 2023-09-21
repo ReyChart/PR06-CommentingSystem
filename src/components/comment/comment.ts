@@ -1,6 +1,6 @@
 import { IElements, getElements, _ } from '../utils/utils';
 import style from './comment.module.scss';
-import { User } from '../../request';
+import { IUser } from '../../request';
 import { CommentForm } from '../commentForm/commentForm';
 
 enum Elements {
@@ -23,19 +23,21 @@ export type ParentComment = {
   comment: string;
   date: Date;
   favorite: boolean;
+  vote: number;
   rating: number;
   replies?: ChildComment[];
   parent?: never;
-} & User;
+} & IUser;
 
 export type ChildComment = {
   comment: string;
   date: Date;
   favorite: boolean;
+  vote: number;
   rating: number;
   parent: string;
   replies?: never;
-} & User;
+} & IUser;
 
 export type CommentType = ParentComment | ChildComment;
 
@@ -46,6 +48,7 @@ export class Comment {
   private _repliesData: ChildComment[];
 
   private readonly _updateComments: () => void;
+  private readonly _patchCommentData: (data: CommentType) => void;
 
   private _templateComment = `
     <div class="${style.comment_container}">
@@ -79,7 +82,12 @@ export class Comment {
     </div>
   `;
 
-  constructor(comment: HTMLElement, uuid: string, updateComments: () => void) {
+  constructor(
+    comment: HTMLElement,
+    uuid: string,
+    updateComments: () => void,
+    patchCommentData: (data: CommentType) => void
+  ) {
     this._comment = comment;
     const storageComms = [
       ...JSON.parse(localStorage.getItem('comments') as string),
@@ -92,6 +100,7 @@ export class Comment {
     );
 
     this._updateComments = updateComments;
+    this._patchCommentData = patchCommentData;
     this.render();
   }
 
@@ -123,7 +132,12 @@ export class Comment {
         const element = document.createElement('div');
         element.dataset.uuid = reply.uuid;
         replies.appendChild(element);
-        new Comment(element, reply.uuid, this._updateComments);
+        new Comment(
+          element,
+          reply.uuid,
+          this._updateComments,
+          this._patchCommentData
+        );
       }
     });
   };
@@ -159,7 +173,7 @@ export class Comment {
       ? `<img src="./completed_heart.svg" alt="completed heart"/> В избранном`
       : `<img src="./empty_heart.svg" alt="empty heart"/> В избранное`;
 
-    rating.innerHTML = `${this._newComment.rating}`;
+    rating.innerHTML = `${this._newComment.rating + this._newComment.vote}`;
     if (this._newComment.rating < 0) {
       rating.classList.add(`${style.negative_rating}`);
     } else {
@@ -183,8 +197,12 @@ export class Comment {
 
   addListeners() {
     const reply = this._elements[Elements.reply] as HTMLButtonElement;
+    const decrement = this._elements[Elements.decrement] as HTMLDivElement;
+    const increment = this._elements[Elements.increment] as HTMLDivElement;
 
     reply.addEventListener('click', this.onReply);
+    decrement.addEventListener('click', this.onDecrement);
+    increment.addEventListener('click', this.onIncrement);
   }
 
   onReply = () => {
@@ -211,6 +229,22 @@ export class Comment {
       const formReply = this._elements[Elements.commentForm] as HTMLFormElement;
       new CommentForm(formReply, this.updateReplies, _, this._newComment);
     }
+  };
+
+  onDecrement = () => {
+    this._newComment.vote === -1
+      ? (this._newComment.vote = 0)
+      : (this._newComment.vote = -1);
+    this._patchCommentData(this._newComment);
+    this._updateComments();
+  };
+
+  onIncrement = () => {
+    this._newComment.vote === 1
+      ? (this._newComment.vote = 0)
+      : (this._newComment.vote = 1);
+    this._patchCommentData(this._newComment);
+    this._updateComments();
   };
 
   updateReplies = () => {

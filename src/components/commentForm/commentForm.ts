@@ -1,6 +1,6 @@
 import { IElements, getElements } from '../utils/utils';
 import style from './commentForm.module.scss';
-import { User, getUser } from '../../request';
+import { IUser, getUser } from '../../request';
 import { CommentType } from '../comment/comment';
 
 enum Elements {
@@ -18,7 +18,7 @@ export class CommentForm {
   private readonly _commentForm: HTMLElement;
   private readonly _elements: IElements = {};
   private _charCount: number | undefined;
-  private _user!: User;
+  private _user!: IUser;
   private readonly _parent: CommentType | null;
 
   private readonly _updateComments: () => void;
@@ -97,6 +97,7 @@ export class CommentForm {
       date: new Date(),
       favorite: false,
       rating: Math.floor(Math.random() * 201 - 100),
+      vote: 0,
       parent: this._parent?.uuid,
     };
 

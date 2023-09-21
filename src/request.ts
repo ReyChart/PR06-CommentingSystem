@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-interface Data {
+interface IData {
   name: {
     first: string;
     last: string;
@@ -13,23 +13,26 @@ interface Data {
   };
 }
 
-export interface User {
+export interface IUser {
   name: string;
   uuid: string;
   avatar: string;
 }
 
-export const USER_REQUEST = 'https://randomuser.me/api/?inc=name,login,picture&noinfo&nat=us';
+export const USER_REQUEST =
+  'https://randomuser.me/api/?inc=name,login,picture&noinfo&nat=us';
 
-export const getUser = (): Promise<User> => {
-  return axios.get(USER_REQUEST).then(({ data }: { data: { results: Data[] } }) => {
-    const { name, login, picture } = data.results[0];
-    const { first, last } = name;
+export const getUser = (): Promise<IUser> => {
+  return axios
+    .get(USER_REQUEST)
+    .then(({ data }: { data: { results: IData[] } }) => {
+      const { name, login, picture } = data.results[0];
+      const { first, last } = name;
 
-    return {
-      name: `${first} ${last}`,
-      uuid: login.uuid,
-      avatar: picture.medium,
-    };
-  });
+      return {
+        name: `${first} ${last}`,
+        uuid: login.uuid,
+        avatar: picture.medium,
+      };
+    });
 };
