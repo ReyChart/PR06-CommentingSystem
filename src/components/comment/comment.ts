@@ -23,8 +23,9 @@ export type ParentComment = {
   comment: string;
   date: Date;
   favorite: boolean;
-  vote: number;
   rating: number;
+  increment: boolean;
+  decrement: boolean;
   replies?: ChildComment[];
   parent?: never;
 } & IUser;
@@ -33,8 +34,9 @@ export type ChildComment = {
   comment: string;
   date: Date;
   favorite: boolean;
-  vote: number;
   rating: number;
+  increment: boolean;
+  decrement: boolean;
   parent: string;
   replies?: never;
 } & IUser;
@@ -173,7 +175,7 @@ export class Comment {
       ? `<img src="./completed_heart.svg" alt="completed heart"/> В избранном`
       : `<img src="./empty_heart.svg" alt="empty heart"/> В избранное`;
 
-    rating.innerHTML = `${this._newComment.rating + this._newComment.vote}`;
+    rating.innerHTML = `${this._newComment.rating}`;
     if (this._newComment.rating < 0) {
       rating.classList.add(`${style.negative_rating}`);
     } else {
@@ -232,17 +234,25 @@ export class Comment {
   };
 
   onDecrement = () => {
-    this._newComment.vote === -1
-      ? (this._newComment.vote = 0)
-      : (this._newComment.vote = -1);
+    if (this._newComment.decrement && !this._newComment.increment) {
+      this._newComment.rating--;
+      this._newComment.increment = true;
+    } else if (this._newComment.decrement) {
+      this._newComment.rating--;
+      this._newComment.decrement = false;
+    }
     this._patchCommentData(this._newComment);
     this._updateComments();
   };
 
   onIncrement = () => {
-    this._newComment.vote === 1
-      ? (this._newComment.vote = 0)
-      : (this._newComment.vote = 1);
+    if (!this._newComment.decrement && this._newComment.increment) {
+      this._newComment.rating++;
+      this._newComment.decrement = true;
+    } else if (this._newComment.increment) {
+      this._newComment.rating++;
+      this._newComment.increment = false;
+    }
     this._patchCommentData(this._newComment);
     this._updateComments();
   };

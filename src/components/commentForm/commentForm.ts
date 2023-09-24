@@ -97,7 +97,8 @@ export class CommentForm {
       date: new Date(),
       favorite: false,
       rating: Math.floor(Math.random() * 201 - 100),
-      vote: 0,
+      increment: true,
+      decrement: true,
       parent: this._parent?.uuid,
     };
 
