@@ -34,12 +34,10 @@ export class CommentBlock {
     this._commentBlock.innerHTML = this._templateCommentBlock;
     getElements(this._commentBlock, this._elements);
 
-    if (!localStorage.getItem('comments'))
-      localStorage.setItem('comments', '[]');
+    if (!localStorage.getItem('comments')) localStorage.setItem('comments', '[]');
+    localStorage.setItem('sort', 'relevance');
 
-    this._controlPanel = new ControlPanel(
-      this._elements[Elements.controlPanel]
-    );
+    this._controlPanel = new ControlPanel(this._elements[Elements.controlPanel]);
     new CommentForm(
       this._elements[Elements.commentForm],
       this.updateComments,

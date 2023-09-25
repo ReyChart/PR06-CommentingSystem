@@ -24,11 +24,7 @@
   }
 }
 
-.hidden {
-  display: none;
-}
-
-.select_wrapper {
+.select {
   position: relative;
 }
 
@@ -36,8 +32,14 @@
   @include controlPanel;
 
   > img {
-    width: 20px;
-    height: 20px;
+    width: 18px;
+    height: 18px;
+    animation: rotate-second-half 0.4s ease-in-out;
+  }
+
+  & .rotate {
+    animation: rotate-first-half 0.4s ease-in-out;
+    animation-fill-mode: both;
   }
 }
 
@@ -46,21 +48,21 @@
   z-index: 1;
   top: 32px;
   border-radius: 5px;
-  box-shadow: 0 0 10px 5px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 0 10px 5px rgba($black-color, 0.1);
   background-color: $white-color;
   width: 229px;
   padding: 8px 0 9px 10px;
 
   > li {
     font-size: 16px;
-    opacity: 0.4;
+    color: rgba($black-color, 0.4);
     list-style: none;
     display: flex;
     align-items: center;
     cursor: pointer;
 
-    &:before {
-      content: url(../../../public/checkbox.svg);
+    > img {
+      visibility: hidden;
       margin-right: 10px;
       width: 15px;
       height: 15px;
@@ -68,6 +70,32 @@
   }
 }
 
+.hide {
+  display: none;
+}
+
 .favorite_btn {
+  width: 22px;
+  height: 22px;
   @include controlPanel;
+}
+
+@keyframes rotate-first-half {
+  from {
+    transform: rotate(0);
+  }
+
+  to {
+    transform: rotate(180deg);
+  }
+}
+
+@keyframes rotate-second-half {
+  from {
+    transform: rotate(180deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
 }
