@@ -20,6 +20,8 @@ export class ControlPanel {
     { key: 'answer', value: 'По количеству ответов' },
   ];
 
+  private readonly _updateComments: () => void;
+
   private _templateControlPanel = `
     <button class="${style.comments_btn}" data-element="${Elements.commentsFilter}">
       Комментарии <span data-element="${Elements.counter}"></span>
@@ -44,9 +46,10 @@ export class ControlPanel {
     </button>
   `;
 
-  constructor(controlPanel: HTMLElement) {
+  constructor(controlPanel: HTMLElement, updateComments: () => void) {
     this._controlPanel = controlPanel;
 
+    this._updateComments = updateComments;
     this.render();
   }
 
@@ -55,6 +58,15 @@ export class ControlPanel {
     getElements(this._controlPanel, this._elements);
     this.updateCounter();
     this.addListeners();
+
+    const defaultSort = localStorage.getItem('sort');
+    const defaultListItem = this._elements[Elements.selectDropdown].querySelector(
+      `li[value="${defaultSort}"] img`
+    ) as HTMLImageElement;
+
+    if (defaultListItem) {
+      defaultListItem.style.visibility = 'visible';
+    }
   }
 
   updateCounter() {
@@ -101,6 +113,7 @@ export class ControlPanel {
     }
 
     dropdown.classList.toggle(style.hide);
+    this._updateComments();
   };
 
   addListeners() {

@@ -1,4 +1,4 @@
-import { IElements, getElements } from '../utils/utils';
+import { IElements, getElements, sortBy } from '../utils/utils';
 import { Comment, CommentType } from '../comment/comment';
 
 export class Comments {
@@ -8,9 +8,7 @@ export class Comments {
 
   constructor(comments: HTMLElement) {
     this._comments = comments;
-    this._commentContain = JSON.parse(
-      localStorage.getItem('comments') as string
-    );
+    this._commentContain = JSON.parse(localStorage.getItem('comments') as string);
 
     this.render();
   }
@@ -19,7 +17,7 @@ export class Comments {
     if (!this._commentContain) return;
 
     const parentComments = this._commentContain.filter((item) => !item.parent);
-    this._comments.innerHTML = parentComments
+    this._comments.innerHTML = sortBy(parentComments)!
       .map((comment) => `<div data-element="${comment.uuid}"></div>`)
       .join('');
     getElements(this._comments, this._elements);
@@ -30,16 +28,12 @@ export class Comments {
   }
 
   updateComments() {
-    this._commentContain = JSON.parse(
-      localStorage.getItem('comments') as string
-    );
+    this._commentContain = JSON.parse(localStorage.getItem('comments') as string);
     this.render();
   }
 
   patchCommentData = (data: CommentType) => {
-    this._commentContain = JSON.parse(
-      localStorage.getItem('comments') as string
-    );
+    this._commentContain = JSON.parse(localStorage.getItem('comments') as string);
     const patchedData = this._commentContain.map((comment) =>
       comment.uuid === data.uuid ? data : comment
     );

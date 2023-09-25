@@ -1,3 +1,5 @@
+import { CommentType } from '../comment/comment';
+
 export interface IElements {
   [key: string]: HTMLElement;
 }
@@ -11,3 +13,22 @@ export function getElements(root: HTMLElement, elements: IElements) {
 }
 
 export const _ = () => {};
+
+export function sortBy(comments: CommentType[]) {
+  const sortAttribute = localStorage.getItem('sort');
+
+  switch (sortAttribute) {
+    case 'date':
+      return comments.sort(
+        (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime()
+      );
+
+    case 'relevance':
+      return comments.sort(
+        (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
+      );
+
+    case 'rating':
+      return comments.sort((a, b) => b.rating - a.rating);
+  }
+}

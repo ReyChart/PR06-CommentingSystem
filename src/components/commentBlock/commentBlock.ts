@@ -37,7 +37,10 @@ export class CommentBlock {
     if (!localStorage.getItem('comments')) localStorage.setItem('comments', '[]');
     localStorage.setItem('sort', 'relevance');
 
-    this._controlPanel = new ControlPanel(this._elements[Elements.controlPanel]);
+    this._controlPanel = new ControlPanel(
+      this._elements[Elements.controlPanel],
+      this.updateComments
+    );
     new CommentForm(
       this._elements[Elements.commentForm],
       this.updateComments,
