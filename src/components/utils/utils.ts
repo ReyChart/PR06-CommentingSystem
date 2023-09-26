@@ -30,5 +30,15 @@ export function sortBy(comments: CommentType[]) {
 
     case 'rating':
       return comments.sort((a, b) => b.rating - a.rating);
+
+    case 'replies':
+      const storageComms = [...JSON.parse(localStorage.getItem('comments') as string)];
+      const parentWithReplyCount = comments.map((comment) => {
+        const replyCount = storageComms.filter(
+          (item) => item.parent === comment.uuid
+        ).length;
+        return { ...comment, replyCount };
+      });
+      return parentWithReplyCount.sort((a, b) => b.replyCount - a.replyCount);
   }
 }

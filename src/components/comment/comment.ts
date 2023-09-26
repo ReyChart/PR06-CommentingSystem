@@ -91,12 +91,8 @@ export class Comment {
     patchCommentData: (data: CommentType) => void
   ) {
     this._comment = comment;
-    const storageComms = [
-      ...JSON.parse(localStorage.getItem('comments') as string),
-    ];
-    this._newComment = storageComms.find(
-      (item: CommentType) => item.uuid === uuid
-    );
+    const storageComms = [...JSON.parse(localStorage.getItem('comments') as string)];
+    this._newComment = storageComms.find((item: CommentType) => item.uuid === uuid);
     this._repliesData = storageComms.filter(
       (item: CommentType) => item.parent === this._newComment.uuid
     );
@@ -126,20 +122,13 @@ export class Comment {
   renderReplies = () => {
     const replies = this._elements[Elements.replies] as HTMLElement;
     this._repliesData.forEach((reply) => {
-      const existingElement = replies.querySelector(
-        `[data-uuid="${reply.uuid}"]`
-      );
+      const existingElement = replies.querySelector(`[data-uuid="${reply.uuid}"]`);
 
       if (!existingElement) {
         const element = document.createElement('div');
         element.dataset.uuid = reply.uuid;
         replies.appendChild(element);
-        new Comment(
-          element,
-          reply.uuid,
-          this._updateComments,
-          this._patchCommentData
-        );
+        new Comment(element, reply.uuid, this._updateComments, this._patchCommentData);
       }
     });
   };
@@ -153,9 +142,7 @@ export class Comment {
     const rating = this._elements[Elements.rating] as HTMLDivElement;
 
     const parent = this._elements[Elements.parent] as HTMLDivElement;
-    const parentName = this._elements[
-      Elements.parentName
-    ] as HTMLParagraphElement;
+    const parentName = this._elements[Elements.parentName] as HTMLParagraphElement;
     const reply = this._elements[Elements.reply] as HTMLButtonElement;
     const isParent = this._newComment.parent;
 
@@ -258,13 +245,12 @@ export class Comment {
   };
 
   updateReplies = () => {
-    const storageComms = [
-      ...JSON.parse(localStorage.getItem('comments') as string),
-    ];
+    const storageComms = [...JSON.parse(localStorage.getItem('comments') as string)];
     this._repliesData = storageComms.filter(
       (item: CommentType) => item.parent === this._newComment.uuid
     );
     this._elements[Elements.commentForm].remove();
     this.renderReplies();
+    this._updateComments();
   };
 }

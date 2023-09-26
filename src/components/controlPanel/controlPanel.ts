@@ -17,7 +17,7 @@ export class ControlPanel {
     { key: 'date', value: 'По дате' },
     { key: 'rating', value: 'По количеству оценок' },
     { key: 'relevance', value: 'По актуальности' },
-    { key: 'answer', value: 'По количеству ответов' },
+    { key: 'replies', value: 'По количеству ответов' },
   ];
 
   private readonly _updateComments: () => void;

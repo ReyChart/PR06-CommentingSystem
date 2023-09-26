@@ -27,10 +27,10 @@ export class Comments {
     });
   }
 
-  updateComments() {
+  updateComments = () => {
     this._commentContain = JSON.parse(localStorage.getItem('comments') as string);
     this.render();
-  }
+  };
 
   patchCommentData = (data: CommentType) => {
     this._commentContain = JSON.parse(localStorage.getItem('comments') as string);
