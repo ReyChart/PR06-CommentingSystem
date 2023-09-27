@@ -126,13 +126,19 @@ export class ControlPanel {
     this._showFavoriteComments();
   };
 
+  onCommentsFilter = () => {
+    this._updateComments();
+  };
+
   addListeners() {
     const selectButton = this._elements[Elements.selectButton] as HTMLButtonElement;
     const selectDropdown = this._elements[Elements.selectDropdown] as HTMLUListElement;
     const favoriteFilter = this._elements[Elements.favoriteFilter] as HTMLButtonElement;
+    const commentsFilter = this._elements[Elements.commentsFilter] as HTMLButtonElement;
 
     selectButton.addEventListener('click', this.onSelectButton);
     selectDropdown.addEventListener('click', this.onSelectDropdown);
     favoriteFilter.addEventListener('click', this.onFavoriteFilter);
+    commentsFilter.addEventListener('click', this.onCommentsFilter);
   }
 }
