@@ -51,6 +51,7 @@ export class Comment {
 
   private readonly _updateComments: () => void;
   private readonly _patchCommentData: (data: CommentType) => void;
+  private readonly _showFavoriteComments: () => void;
 
   private _templateComment = `
     <div class="${style.comment_container}">
@@ -88,7 +89,8 @@ export class Comment {
     comment: HTMLElement,
     uuid: string,
     updateComments: () => void,
-    patchCommentData: (data: CommentType) => void
+    patchCommentData: (data: CommentType) => void,
+    showFavoriteComments: () => void
   ) {
     this._comment = comment;
     const storageComms = [...JSON.parse(localStorage.getItem('comments') as string)];
@@ -98,6 +100,7 @@ export class Comment {
     );
 
     this._updateComments = updateComments;
+    this._showFavoriteComments = showFavoriteComments;
     this._patchCommentData = patchCommentData;
     this.render();
   }
@@ -128,7 +131,13 @@ export class Comment {
         const element = document.createElement('div');
         element.dataset.uuid = reply.uuid;
         replies.appendChild(element);
-        new Comment(element, reply.uuid, this._updateComments, this._patchCommentData);
+        new Comment(
+          element,
+          reply.uuid,
+          this._updateComments,
+          this._patchCommentData,
+          this._showFavoriteComments
+        );
       }
     });
   };
@@ -138,7 +147,6 @@ export class Comment {
     const name = this._elements[Elements.name] as HTMLParagraphElement;
     const comment = this._elements[Elements.comment] as HTMLParagraphElement;
     const date = this._elements[Elements.date] as HTMLDataElement;
-    const favorite = this._elements[Elements.favorite] as HTMLButtonElement;
     const rating = this._elements[Elements.rating] as HTMLDivElement;
 
     const parent = this._elements[Elements.parent] as HTMLDivElement;
@@ -158,9 +166,7 @@ export class Comment {
       })
       .replace(',', ' ');
 
-    favorite.innerHTML = this._newComment.favorite
-      ? `<img src="./completed_heart.svg" alt="completed heart"/> В избранном`
-      : `<img src="./empty_heart.svg" alt="empty heart"/> В избранное`;
+    this.updateFavoriteButton();
 
     rating.innerHTML = `${this._newComment.rating}`;
     if (this._newComment.rating < 0) {
@@ -188,10 +194,12 @@ export class Comment {
     const reply = this._elements[Elements.reply] as HTMLButtonElement;
     const decrement = this._elements[Elements.decrement] as HTMLDivElement;
     const increment = this._elements[Elements.increment] as HTMLDivElement;
+    const favorite = this._elements[Elements.favorite] as HTMLButtonElement;
 
     reply.addEventListener('click', this.onReply);
     decrement.addEventListener('click', this.onDecrement);
     increment.addEventListener('click', this.onIncrement);
+    favorite.addEventListener('click', this.onFavorite);
   }
 
   onReply = () => {
@@ -243,6 +251,30 @@ export class Comment {
     this._patchCommentData(this._newComment);
     this._updateComments();
   };
+
+  onFavorite = () => {
+    this._newComment.favorite = !this._newComment.favorite;
+    this.updateFavoriteButton();
+
+    const favorites = JSON.parse(localStorage.getItem('favorite') as string).filter(
+      (comment: CommentType) => comment.uuid !== this._newComment.uuid
+    );
+
+    if (this._newComment.favorite) {
+      favorites.push(this._newComment);
+    }
+
+    localStorage.setItem('favorite', JSON.stringify(favorites));
+
+    this._patchCommentData(this._newComment);
+  };
+
+  updateFavoriteButton() {
+    const favoriteButton = this._elements[Elements.favorite] as HTMLButtonElement;
+    favoriteButton.innerHTML = this._newComment.favorite
+      ? `<img src="./completed_heart.svg" alt="completed heart"/> В избранном`
+      : `<img src="./empty_heart.svg" alt="empty heart"/> В избранное`;
+  }
 
   updateReplies = () => {
     const storageComms = [...JSON.parse(localStorage.getItem('comments') as string)];

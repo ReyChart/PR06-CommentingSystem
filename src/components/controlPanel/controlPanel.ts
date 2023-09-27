@@ -21,6 +21,7 @@ export class ControlPanel {
   ];
 
   private readonly _updateComments: () => void;
+  private readonly _showFavoriteComments: () => void;
 
   private _templateControlPanel = `
     <button class="${style.comments_btn}" data-element="${Elements.commentsFilter}">
@@ -46,10 +47,15 @@ export class ControlPanel {
     </button>
   `;
 
-  constructor(controlPanel: HTMLElement, updateComments: () => void) {
+  constructor(
+    controlPanel: HTMLElement,
+    updateComments: () => void,
+    showFavoriteComments: () => void
+  ) {
     this._controlPanel = controlPanel;
 
     this._updateComments = updateComments;
+    this._showFavoriteComments = showFavoriteComments;
     this.render();
   }
 
@@ -116,11 +122,17 @@ export class ControlPanel {
     this._updateComments();
   };
 
+  onFavoriteFilter = () => {
+    this._showFavoriteComments();
+  };
+
   addListeners() {
     const selectButton = this._elements[Elements.selectButton] as HTMLButtonElement;
     const selectDropdown = this._elements[Elements.selectDropdown] as HTMLUListElement;
+    const favoriteFilter = this._elements[Elements.favoriteFilter] as HTMLButtonElement;
 
     selectButton.addEventListener('click', this.onSelectButton);
     selectDropdown.addEventListener('click', this.onSelectDropdown);
+    favoriteFilter.addEventListener('click', this.onFavoriteFilter);
   }
 }

@@ -36,10 +36,12 @@ export class CommentBlock {
 
     if (!localStorage.getItem('comments')) localStorage.setItem('comments', '[]');
     localStorage.setItem('sort', 'relevance');
+    if (!localStorage.getItem('favorite')) localStorage.setItem('favorite', '[]');
 
     this._controlPanel = new ControlPanel(
       this._elements[Elements.controlPanel],
-      this.updateComments
+      this.updateComments,
+      this.showFavoriteComments
     );
     new CommentForm(
       this._elements[Elements.commentForm],
@@ -55,5 +57,9 @@ export class CommentBlock {
 
   updateComments = () => {
     this._comments.updateComments();
+  };
+
+  showFavoriteComments = () => {
+    this._comments.showFavoriteComments();
   };
 }

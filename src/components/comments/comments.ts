@@ -23,12 +23,23 @@ export class Comments {
     getElements(this._comments, this._elements);
 
     Object.entries(this._elements).forEach(([id, element]) => {
-      new Comment(element, id, this.updateComments, this.patchCommentData);
+      new Comment(
+        element,
+        id,
+        this.updateComments,
+        this.patchCommentData,
+        this.showFavoriteComments
+      );
     });
   }
 
   updateComments = () => {
     this._commentContain = JSON.parse(localStorage.getItem('comments') as string);
+    this.render();
+  };
+
+  showFavoriteComments = () => {
+    this._commentContain = JSON.parse(localStorage.getItem('favorite') as string);
     this.render();
   };
 
