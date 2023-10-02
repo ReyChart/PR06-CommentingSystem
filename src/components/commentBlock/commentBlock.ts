@@ -37,6 +37,7 @@ export class CommentBlock {
     if (!localStorage.getItem('comments')) localStorage.setItem('comments', '[]');
     localStorage.setItem('sort', 'relevance');
     if (!localStorage.getItem('favorite')) localStorage.setItem('favorite', '[]');
+    localStorage.setItem('favoriteState', 'false');
 
     this._controlPanel = new ControlPanel(
       this._elements[Elements.controlPanel],

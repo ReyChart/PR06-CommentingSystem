@@ -123,6 +123,7 @@ export class ControlPanel {
   };
 
   onFavoriteFilter = () => {
+    localStorage.setItem('favoriteState', 'true');
     this._showFavoriteComments();
   };
 

@@ -267,6 +267,7 @@ export class Comment {
     localStorage.setItem('favorite', JSON.stringify(favorites));
 
     this._patchCommentData(this._newComment);
+    this._showFavoriteComments();
   };
 
   updateFavoriteButton() {

@@ -17,7 +17,31 @@ export class Comments {
     if (!this._commentContain) return;
 
     const parentComments = this._commentContain.filter((item) => !item.parent);
-    this._comments.innerHTML = sortBy(parentComments)!
+    this.renderComments(sortBy(parentComments)!);
+  }
+
+  updateComments = () => {
+    this._commentContain = JSON.parse(localStorage.getItem('comments') as string);
+    localStorage.setItem('favoriteState', 'false');
+    this.render();
+  };
+
+  showFavoriteComments = () => {
+    const isFavoriteState = localStorage.getItem('favoriteState') === 'true';
+
+    if (isFavoriteState) {
+      const favoriteComments: CommentType[] = JSON.parse(
+        localStorage.getItem('favorite') as string
+      );
+
+      this.renderComments(favoriteComments);
+    } else {
+      this._commentContain = JSON.parse(localStorage.getItem('comments') as string);
+    }
+  };
+
+  private renderComments(comments: CommentType[]) {
+    this._comments.innerHTML = comments
       .map((comment) => `<div data-element="${comment.uuid}"></div>`)
       .join('');
     getElements(this._comments, this._elements);
@@ -32,16 +56,6 @@ export class Comments {
       );
     });
   }
-
-  updateComments = () => {
-    this._commentContain = JSON.parse(localStorage.getItem('comments') as string);
-    this.render();
-  };
-
-  showFavoriteComments = () => {
-    this._commentContain = JSON.parse(localStorage.getItem('favorite') as string);
-    this.render();
-  };
 
   patchCommentData = (data: CommentType) => {
     this._commentContain = JSON.parse(localStorage.getItem('comments') as string);
