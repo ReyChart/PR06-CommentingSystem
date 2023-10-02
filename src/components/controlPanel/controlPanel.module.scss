@@ -1,13 +1,14 @@
 @import '/src/assets/styles/variables';
 @import '/src/assets/styles/mixins';
 
-.comments_btn {
+.comments_btn:first-child {
   font-weight: 500;
   font-size: 20px;
   line-height: 24px;
-  padding-bottom: 2px;
   background-color: transparent;
-  border-bottom: 3px solid $black-color;
+  color: rgba($black-color, 0.4);
+  padding-bottom: 2px;
+  border-bottom: 3px solid rgba($black-color, 0.4);
 
   > span {
     margin-left: 5px;
@@ -15,12 +16,15 @@
     color: rgba($black-color, 0.4);
   }
 
-  &:hover {
-    color: rgba($black-color, 0.7);
+  &.active {
+    color: $black-color;
+    border-bottom-color: $black-color;
+  }
 
-    > span {
-      color: rgba($black-color, 0.7);
-    }
+  &:hover:not(.active) {
+    color: rgba($black-color, 0.7);
+    border-bottom-color: rgba($black-color, 0.7);
+    transition: all 0.4s ease;
   }
 }
 
@@ -31,10 +35,23 @@
 .select_btn {
   @include controlPanel;
 
+  > span {
+    padding-bottom: 2px;
+    border-bottom: 1px solid rgba($black-color, 0.4);
+    transition: all 0.4s ease;
+  }
+
   > img {
     width: 18px;
     height: 18px;
     animation: rotate-second-half 0.4s ease-in-out;
+  }
+
+  &:hover {
+    color: rgba($black-color, 0.7);
+    > span {
+      border-bottom-color: rgba($black-color, 0.7);
+    }
   }
 
   & .rotate {
@@ -75,9 +92,32 @@
 }
 
 .favorite_btn {
-  width: 22px;
-  height: 22px;
   @include controlPanel;
+
+  > span {
+    padding-bottom: 2px;
+    border-bottom: 1px solid rgba($black-color, 0.4);
+    transition: all 0.4s ease;
+  }
+
+  > img {
+    width: 22px;
+    height: 22px;
+  }
+
+  &:hover {
+    color: rgba($black-color, 0.7);
+    > span {
+      border-bottom-color: rgba($black-color, 0.7);
+    }
+  }
+
+  &.active {
+    > span {
+      color: $black-color;
+      border-bottom-color: $black-color;
+    }
+  }
 }
 
 @keyframes rotate-first-half {

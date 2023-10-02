@@ -24,12 +24,14 @@ export class ControlPanel {
   private readonly _showFavoriteComments: () => void;
 
   private _templateControlPanel = `
-    <button class="${style.comments_btn}" data-element="${Elements.commentsFilter}">
+    <button class="${style.comments_btn} ${style.active}" data-element="${
+    Elements.commentsFilter
+  }">
       Комментарии <span data-element="${Elements.counter}"></span>
     </button>
     <div class="${style.select}">
       <button class="${style.select_btn}" data-element="${Elements.selectButton}">
-        По актуальности <img src="./arrow_up.svg" alt="arrow up"/>
+        <span>По актуальности</span> <img src="./arrow_up.svg" alt="arrow up"/>
       </button>
       <ul class="${style.select_dropdown} ${style.hide}" data-element="${
     Elements.selectDropdown
@@ -43,7 +45,7 @@ export class ControlPanel {
       </ul>
     </div>
     <button class="${style.favorite_btn}" data-element="${Elements.favoriteFilter}">
-      Избранное <img src="./favorite_heart.svg" alt="favorite heart"/>
+      <span>Избранное</span> <img src="./favorite_heart.svg" alt="favorite heart"/>
     </button>
   `;
 
@@ -86,7 +88,7 @@ export class ControlPanel {
 
   onSelectButton = () => {
     const button = this._elements[Elements.selectButton] as HTMLButtonElement;
-    const icon = button.firstElementChild as HTMLPictureElement;
+    const icon = button.lastElementChild as HTMLPictureElement;
     const dropdown = this._elements[Elements.selectDropdown] as HTMLUListElement;
 
     icon.classList.toggle(style.rotate);
@@ -105,7 +107,7 @@ export class ControlPanel {
         const sortTypeLabel = this._selectData.find((item) => item.key === sortType);
 
         localStorage.setItem('sort', sortType);
-        button.innerHTML = `${sortTypeLabel?.value} <img src="./arrow_up.svg" alt="arrow up"/>`;
+        button.innerHTML = `<span>${sortTypeLabel?.value}</span> <img src="./arrow_up.svg" alt="arrow up"/>`;
 
         const ListItems = dropdown.querySelectorAll('li');
         ListItems.forEach((item) => {
@@ -122,15 +124,6 @@ export class ControlPanel {
     this._updateComments();
   };
 
-  onFavoriteFilter = () => {
-    localStorage.setItem('favoriteState', 'true');
-    this._showFavoriteComments();
-  };
-
-  onCommentsFilter = () => {
-    this._updateComments();
-  };
-
   addListeners() {
     const selectButton = this._elements[Elements.selectButton] as HTMLButtonElement;
     const selectDropdown = this._elements[Elements.selectDropdown] as HTMLUListElement;
@@ -139,7 +132,19 @@ export class ControlPanel {
 
     selectButton.addEventListener('click', this.onSelectButton);
     selectDropdown.addEventListener('click', this.onSelectDropdown);
-    favoriteFilter.addEventListener('click', this.onFavoriteFilter);
-    commentsFilter.addEventListener('click', this.onCommentsFilter);
+
+    favoriteFilter.addEventListener('click', () => {
+      favoriteFilter.classList.add(style.active);
+      commentsFilter.classList.remove(style.active);
+
+      localStorage.setItem('favoriteState', 'true');
+      this._showFavoriteComments();
+    });
+
+    commentsFilter.addEventListener('click', () => {
+      commentsFilter.classList.add(style.active);
+      favoriteFilter.classList.remove(style.active);
+      this._updateComments();
+    });
   }
 }
