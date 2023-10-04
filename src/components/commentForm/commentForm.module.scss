@@ -90,3 +90,72 @@
     background-color: $btn-disabled;
   }
 }
+
+@media (max-width: 970px) {
+  .form {
+    flex-wrap: wrap;
+  }
+
+  .textarea_wrapper {
+    margin-right: 0;
+  }
+
+  .textarea {
+    max-width: 100%;
+  }
+
+  .validation_wrapper {
+    right: 0;
+
+    > p:first-child {
+      order: 1;
+      margin: 0 0 0 30px;
+    }
+  }
+
+  .form_btn_wrapper {
+    margin-top: 20px;
+  }
+}
+
+@media (max-width: 730px) {
+  .form {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 0;
+  }
+
+  .user_wrapper {
+    align-items: center;
+
+    > img {
+      position: static;
+    }
+
+    > p {
+      position: static;
+    }
+  }
+
+  .textarea_wrapper {
+    padding: 20px 0;
+    position: relative;
+  }
+
+  .validation_wrapper {
+    position: static;
+
+    > p:first-child {
+      margin-left: 0;
+      position: absolute;
+      top: -10px;
+      right: 0;
+    }
+
+    > p:last-child {
+      position: absolute;
+      bottom: -10px;
+      left: 0;
+    }
+  }
+}

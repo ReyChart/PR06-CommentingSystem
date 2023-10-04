@@ -125,3 +125,32 @@
   font-weight: 500;
   color: $red-color;
 }
+
+@media (max-width: 1380px) {
+  .comment_form {
+    > form {
+      flex-wrap: wrap;
+
+      > div:first-child ~ div:not(div:last-child) {
+        margin-right: 0;
+
+        > textarea {
+          max-width: 100%;
+        }
+
+        > div:last-child {
+          right: 0;
+
+          > p:first-child {
+            order: 1;
+            margin: 0 0 0 30px;
+          }
+        }
+      }
+
+      > div:last-child {
+        margin-top: 20px;
+      }
+    }
+  }
+}
