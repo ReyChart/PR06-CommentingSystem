@@ -24,18 +24,14 @@ export class ControlPanel {
   private readonly _showFavoriteComments: () => void;
 
   private _templateControlPanel = `
-    <button class="${style.comments_btn} ${style.active}" data-element="${
-    Elements.commentsFilter
-  }">
+    <button class="${style.comments_btn} ${style.active}" data-element="${Elements.commentsFilter}">
       Комментарии <span data-element="${Elements.counter}"></span>
     </button>
     <div class="${style.select}">
       <button class="${style.select_btn}" data-element="${Elements.selectButton}">
         <span>По актуальности</span> <img src="./arrow_up.svg" alt="arrow up"/>
       </button>
-      <ul class="${style.select_dropdown} ${style.hide}" data-element="${
-    Elements.selectDropdown
-  }">
+      <ul class="${style.select_dropdown} ${style.hide}" data-element="${Elements.selectDropdown}">
         ${this._selectData
           .map(
             (item) =>
@@ -103,6 +99,11 @@ export class ControlPanel {
       const listItem = event.target.closest('li');
 
       if (listItem) {
+        const favoriteFilter = this._elements[Elements.favoriteFilter] as HTMLButtonElement;
+        const commentsFilter = this._elements[Elements.commentsFilter] as HTMLButtonElement;
+        commentsFilter.classList.add(style.active);
+        favoriteFilter.classList.remove(style.active);
+
         const sortType = listItem.getAttribute('value') as string;
         const sortTypeLabel = this._selectData.find((item) => item.key === sortType);
 

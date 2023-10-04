@@ -44,11 +44,7 @@ export class CommentBlock {
       this.updateComments,
       this.showFavoriteComments
     );
-    new CommentForm(
-      this._elements[Elements.commentForm],
-      this.updateComments,
-      this.updateCounter
-    );
+    new CommentForm(this._elements[Elements.commentForm], this.updateComments, this.updateCounter);
     this._comments = new Comments(this._elements[Elements.comments]);
   }
 

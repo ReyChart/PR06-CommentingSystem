@@ -1,5 +1,6 @@
 import { IElements, getElements, sortBy } from '../utils/utils';
 import { Comment, CommentType } from '../comment/comment';
+import style from './comments.module.scss';
 
 export class Comments {
   private readonly _comments: HTMLElement;
@@ -18,6 +19,13 @@ export class Comments {
 
     const parentComments = this._commentContain.filter((item) => !item.parent);
     this.renderComments(sortBy(parentComments)!);
+    this.loadingAnimation();
+  }
+
+  private loadingAnimation() {
+    document.addEventListener('DOMContentLoaded', () =>
+      this._comments.classList.add(style.load_animation)
+    );
   }
 
   updateComments = () => {

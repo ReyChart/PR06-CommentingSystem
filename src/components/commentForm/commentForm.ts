@@ -76,9 +76,7 @@ export class CommentForm {
   addListeners() {
     const form = this._elements[Elements.form] as HTMLFormElement;
     const textArea = this._elements[Elements.textArea] as HTMLTextAreaElement;
-    const cancelBtn = this._elements[
-      Elements.buttonCancel
-    ] as HTMLButtonElement;
+    const cancelBtn = this._elements[Elements.buttonCancel] as HTMLButtonElement;
 
     form.addEventListener('submit', (event) => this.onSubmit(event, textArea));
     cancelBtn?.addEventListener('click', this.onCancel);

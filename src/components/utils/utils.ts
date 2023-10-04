@@ -19,14 +19,10 @@ export function sortBy(comments: CommentType[]) {
 
   switch (sortAttribute) {
     case 'date':
-      return comments.sort(
-        (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime()
-      );
+      return comments.sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
 
     case 'relevance':
-      return comments.sort(
-        (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
-      );
+      return comments.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
 
     case 'rating':
       return comments.sort((a, b) => b.rating - a.rating);
@@ -34,9 +30,7 @@ export function sortBy(comments: CommentType[]) {
     case 'replies':
       const storageComms = [...JSON.parse(localStorage.getItem('comments') as string)];
       const parentWithReplyCount = comments.map((comment) => {
-        const replyCount = storageComms.filter(
-          (item) => item.parent === comment.uuid
-        ).length;
+        const replyCount = storageComms.filter((item) => item.parent === comment.uuid).length;
         return { ...comment, replyCount };
       });
       return parentWithReplyCount.sort((a, b) => b.replyCount - a.replyCount);
