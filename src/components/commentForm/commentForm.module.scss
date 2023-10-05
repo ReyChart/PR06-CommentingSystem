@@ -45,6 +45,7 @@
   border-radius: 5px;
   line-height: 22px;
   resize: none;
+
   &::placeholder {
     opacity: 0.4;
   }
@@ -157,5 +158,32 @@
       bottom: -10px;
       left: 0;
     }
+  }
+}
+
+@media (max-width: 550px) {
+  .form_btn_wrapper {
+    width: 100%;
+
+    > button {
+      width: 100%;
+    }
+  }
+}
+
+@media (max-width: 460px) {
+  .validation_wrapper > p:last-child {
+    font-size: 12px;
+    line-height: 14px;
+  }
+
+  .textarea {
+    &::placeholder {
+      font-size: 16px;
+    }
+  }
+
+  .form_btn {
+    font-size: 16px;
   }
 }

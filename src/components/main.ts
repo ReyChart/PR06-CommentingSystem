@@ -18,7 +18,6 @@ export class Main {
       <div class="${style.blocks_wrapper}">
         <section class="${style.info_block}" data-element="${Elements.infoBlock}"></section>
         <section data-element="${Elements.commentsBlock}"></section>
-        </div>
       </div>
     </main>
   `;

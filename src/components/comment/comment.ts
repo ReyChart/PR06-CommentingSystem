@@ -56,7 +56,7 @@ export class Comment {
   private _templateComment = `
     <div class="${style.comment_container}">
       <img alt="commenter avatar" class="${style.avatar}" data-element="${Elements.avatar}"/>
-      <div class="comment_inner">
+      <div class="${style.comment_inner}">
         <div class="${style.comment_info}">
           <p data-element="${Elements.name}"></p>
           <div class="${style.parent}" data-element="${Elements.parent}">

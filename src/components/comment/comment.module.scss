@@ -41,11 +41,11 @@
 
 .comment_info {
   display: flex;
-  gap: 15px;
   margin-bottom: 10px;
 
   > p:first-child {
     @include name;
+    margin-right: 15px;
   }
 
   > p:last-child {
@@ -57,6 +57,7 @@
 .parent {
   display: flex;
   gap: 13px;
+  margin-right: 15px;
 
   > p {
     @include answer;
@@ -151,6 +152,97 @@
       > div:last-child {
         margin-top: 20px;
       }
+    }
+  }
+}
+
+@media (max-width: 700px) {
+  .comment_container {
+    flex-direction: column;
+    position: relative;
+  }
+
+  .comment_inner {
+    > .comment_info {
+      flex-wrap: wrap;
+      align-items: center;
+      margin-bottom: 0;
+      position: absolute;
+      top: 20px;
+      left: 91px;
+
+      > p:first-child {
+        margin-right: 29px;
+      }
+
+      > .parent {
+        width: 100%;
+        order: 1;
+        margin: 10px 0 0 0;
+      }
+    }
+
+    > p {
+      padding-top: 15px;
+    }
+  }
+
+  .replies > div > .comment_container > .comment_inner > .comment_info {
+    top: 0;
+  }
+}
+
+@media (max-width: 550px) {
+  .comment_container {
+    margin-bottom: 31px;
+  }
+
+  .comment_form {
+    margin-bottom: 35px;
+
+    > form {
+      > div:last-child {
+        flex-wrap: wrap;
+        width: 100%;
+
+        > button {
+          width: 100%;
+
+          & ~ button {
+            margin: 15px 0 0 0;
+          }
+        }
+      }
+    }
+  }
+
+  .reply_btn {
+    margin-right: 15px;
+  }
+
+  .favorite_btn {
+    margin-right: 15px;
+  }
+}
+
+@media (max-width: 500px) {
+  .replies {
+    margin-left: 0;
+  }
+}
+
+@media (max-width: 460px) {
+  .comment_inner {
+    > p {
+      font-size: 16px;
+    }
+  }
+  .comment_panel {
+    margin-top: 0;
+
+    .vote_system {
+      flex-direction: column-reverse;
+      gap: 2px;
     }
   }
 }

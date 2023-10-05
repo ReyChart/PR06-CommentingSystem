@@ -4,11 +4,34 @@
   padding-top: 20px;
   border-top: 3px solid $background-block;
   display: flex;
-  align-items: center;
-  gap: 50px;
+  align-items: baseline;
+  gap: 55px;
 }
 
 .comment_form {
   margin: 32px 0 40px 0;
   width: 100%;
+}
+
+@media (max-width: 645px) {
+  .control_panel {
+    gap: 35px;
+  }
+}
+
+@media (max-width: 600px) {
+  .control_panel {
+    flex-direction: column;
+    gap: 20px;
+  }
+}
+
+@media (max-width: 550px) {
+  .control_panel {
+    padding-top: 13px;
+  }
+
+  .comment_form {
+    margin: 19px 0 35px 0;
+  }
 }

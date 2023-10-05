@@ -1,4 +1,5 @@
 import style from './infoBlock.module.scss';
+
 export class InfoBlock {
   private readonly _infoBlock: HTMLElement;
   private _templateInfoBlock = `

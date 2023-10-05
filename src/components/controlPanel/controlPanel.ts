@@ -27,22 +27,25 @@ export class ControlPanel {
     <button class="${style.comments_btn} ${style.active}" data-element="${Elements.commentsFilter}">
       Комментарии <span data-element="${Elements.counter}"></span>
     </button>
-    <div class="${style.select}">
-      <button class="${style.select_btn}" data-element="${Elements.selectButton}">
-        <span>По актуальности</span> <img src="./arrow_up.svg" alt="arrow up"/>
+    <div class="${style.btn_wrapper}">
+      <div class="${style.select}">
+        <button class="${style.select_btn}" data-element="${Elements.selectButton}">
+          <span>По актуальности</span> <img src="./arrow_up.svg" alt="arrow up"/>
+        </button>
+        <ul class="${style.select_dropdown} ${style.hide}"
+        data-element="${Elements.selectDropdown}">
+          ${this._selectData
+            .map(
+              (item) =>
+                `<li value="${item.key}"><img src="./checkbox.svg" alt="checkbox"/> ${item.value}</li>`
+            )
+            .join('')}
+        </ul>
+      </div>
+      <button class="${style.favorite_btn}" data-element="${Elements.favoriteFilter}">
+        <span>Избранное</span> <img src="./favorite_heart.svg" alt="favorite heart"/>
       </button>
-      <ul class="${style.select_dropdown} ${style.hide}" data-element="${Elements.selectDropdown}">
-        ${this._selectData
-          .map(
-            (item) =>
-              `<li value="${item.key}"><img src="./checkbox.svg" alt="checkbox"/> ${item.value}</li>`
-          )
-          .join('')}
-      </ul>
     </div>
-    <button class="${style.favorite_btn}" data-element="${Elements.favoriteFilter}">
-      <span>Избранное</span> <img src="./favorite_heart.svg" alt="favorite heart"/>
-    </button>
   `;
 
   constructor(

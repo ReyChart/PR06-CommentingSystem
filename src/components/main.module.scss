@@ -62,3 +62,21 @@ body {
     padding: 0 20px;
   }
 }
+
+@media (max-width: 550px) {
+  .info_block {
+    padding-bottom: 31px;
+
+    > div:not(:first-child) ~ div:not(:last-child) {
+      display: none;
+    }
+
+    > div:last-child {
+      height: 132px;
+    }
+
+    .blocks_wrapper {
+      padding: 0 10px;
+    }
+  }
+}
